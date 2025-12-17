@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOG Analytics Dashboard</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root {
+            --color-bg-primary: #f5f5f5;
+            --color-surface: #ffffff;
+            --color-text-primary: #1f2121;
+            --color-text-secondary: #626c7c;
+            --color-border: #e0e0e0;
+            --color-primary: #2180a8;
+            --color-primary-hover: #1d7490;
+            --color-red: #c01e2f;
+            --color-orange: #a84b2f;
+            --color-green: #138259;
+            --color-status-success: #d4edda;
+            --color-status-warning: #fff3cd;
+            --color-status-danger: #f8d7da;
+            --space-8: 8px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-20: 20px;
+            --radius-base: 8px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: var(--color-surface);
+            padding: var(--space-20);
+            border-bottom: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: var(--color-text-primary);
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: 1px solid var(--color-border);
+            background-color: var(--color-surface);
+            color: var(--color-text-primary);
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 150ms ease-out;
+        }
+
+        button:hover {
+            background-color: var(--color-primary);
+            color: #ffffff;
+            border-color: var(--color-primary);
+        }
+
+        .main {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            gap: var(--space-16);
+            padding: var(--space-16);
+        }
+
+        .panel {
+            background-color: var(--color-surface);
+            border-radius: var(--radius-base);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-tree {
+            flex: 1;
+            min-width: 300px;
+            max-width: 40%;
+        }
+
+        .panel-kpi {
+            flex: 1;
+            min-width: 350px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            padding: var(--space-16);
+            border-bottom: 1px solid var(--color-border);
+            font-weight: 600;
+            font-size: 14px;
+            background-color: #fafafa;
+        }
+
+        .panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-16);
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-surface);
+        }
+
+        .node {
+            cursor: pointer;
+        }
+
+        .node circle {
+            transition: all 150ms ease-out;
+        }
+
+        .node:hover circle {
+            stroke-width: 3px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .node.selected circle {
+            stroke-width: 3px;
+            filter: drop-shadow(0 2px 6px rgba(33, 128, 168, 0.4));
+        }
+
+        .node text {
+            font-size: 11px;
+            pointer-events: none;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .link {
+            fill: none;
+            stroke: #999;
+            stroke-width: 1.5;
+            opacity: 0.6;
+            transition: all 150ms ease-out;
+        }
+
+        .link:hover {
+            stroke-width: 2.5;
+            opacity: 1;
+        }
+
+        .kpi-card {
+            background-color: #fafafa;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            padding: var(--space-16);
+            margin-bottom: var(--space-12);
+            transition: all 150ms ease-out;
+        }
+
+        .kpi-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-primary);
+        }
+
+        .kpi-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin: 0 0 var(--space-8) 0;
+        }
+
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin: var(--space-8) 0;
+        }
+
+        .kpi-goal {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-8);
+        }
+
+        .kpi-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: var(--space-8);
+        }
+
+        .kpi-status.success {
+            background-color: var(--color-status-success);
+            color: #155724;
+        }
+
+        .kpi-status.warning {
+            background-color: var(--color-status-warning);
+            color: #856404;
+        }
+
+        .kpi-status.danger {
+            background-color: var(--color-status-danger);
+            color: #721c24;
+        }
+
+        .kpi-section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-top: var(--space-16);
+            margin-bottom: var(--space-8);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .contributor-list {
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .contributor-item {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-4) 0;
+            color: var(--color-text-secondary);
+        }
+
+        .contributor-positive {
+            color: var(--color-green);
+            font-weight: 500;
+        }
+
+        .contributor-negative {
+            color: var(--color-red);
+            font-weight: 500;
+        }
+
+        .process-bar {
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+            margin-bottom: var(--space-12);
+            font-size: 12px;
+        }
+
+        .process-label {
+            min-width: 80px;
+            font-weight: 500;
+        }
+
+        .process-value {
+            min-width: 40px;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .process-bar-bg {
+            flex: 1;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .process-bar-fill {
+            height: 100%;
+            background-color: var(--color-primary);
+            transition: width 300ms ease-out;
+        }
+
+        .empty-state {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--color-text-secondary);
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 200;
+            white-space: nowrap;
+        }
+
+        .breadcrumb {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-12);
+            padding-bottom: var(--space-12);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .breadcrumb-item {
+            display: inline;
+            margin-right: var(--space-8);
+        }
+
+        .breadcrumb-separator {
+            margin: 0 var(--space-8);
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 OOG Analytics Dashboard</h1>
+            <div class="controls">
+                <button id="resetBtn">Reset View</button>
+                <button id="expandAllBtn">Expand All</button>
+                <button id="collapseAllBtn">Collapse All</button>
+            </div>
+        </div>
+        <div class="main">
+            <div class="panel panel-tree">
+                <div class="panel-header">Organization Structure</div>
+                <div class="panel-body" id="chart">
+                    <svg id="svg"></svg>
+                </div>
+            </div>
+            <div class="panel panel-kpi">
+                <div class="panel-header">Node Details & Metrics</div>
+                <div class="panel-body" id="kpiPanel">
+                    <div class="empty-state">Select a node to view metrics</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let globalTreeData = [];
+        let globalDecisionTree = [];
+
+        // Actual data from OOG_v0.2.json
+        const demoData = {"decisionTree": [{"name": "ABC Corp.", "nodeLevelId": "l1", "parentNodeId": "", "value": 1, "color": "orange", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 1}, {"name": "Revenue", "nodeLevelId": "l2", "parentNodeId": "l1", "value": 1, "color": "red", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 2}, {"name": "Americas", "nodeLevelId": "l3", "parentNodeId": "l2", "value": 1, "color": "red", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 3}, {"name": "Canada", "nodeLevelId": "l4", "parentNodeId": "l3", "value": 1, "color": "orange", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 4}, {"name": "Direct Sales", "nodeLevelId": "l5", "parentNodeId": "l4", "value": 1, "color": "orange", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 5}, {"name": "Licenses", "nodeLevelId": "l6", "parentNodeId": "l5", "value": 1, "color": "orange", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 8}, {"name": "Oscilloscope", "nodeLevelId": "l7", "parentNodeId": "l6", "value": 1, "color": "red", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 9}, {"name": "Generators, Sources and Power Supplies", "nodeLevelId": "l8", "parentNodeId": "l6", "value": 1, "color": "orange", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 9}, {"name": "Analyzers", "nodeLevelId": "l9", "parentNodeId": "l6", "value": 1, "color": "orange", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 9}, {"name": "Meters", "nodeLevelId": "l10", "parentNodeId": "l6", "value": 1, "color": "orange", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 9}, {"name": "Wireless", "nodeLevelId": "l11", "parentNodeId": "l6", "value": 1, "color": "orange", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 9}, {"name": "Modular Instruments", "nodeLevelId": "l12", "parentNodeId": "l6", "value": 1, "color": "orange", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 9}, {"name": "Network Test and Security", "nodeLevelId": "l13", "parentNodeId": "l6", "value": 1, "color": "orange", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 9}, {"name": "Network Visibility", "nodeLevelId": "l14", "parentNodeId": "l6", "value": 1, "color": "orange", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 9}, {"name": "Software", "nodeLevelId": "l15", "parentNodeId": "l6", "value": 1, "color": "orange", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 9}, {"name": "Services", "nodeLevelId": "l16", "parentNodeId": "l6", "value": 1, "color": "red", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 9}, {"name": "Additional Products", "nodeLevelId": "l17", "parentNodeId": "l6", "value": 1, "color": "red", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 9}, {"name": "SaaS", "nodeLevelId": "l18", "parentNodeId": "l5", "value": 1, "color": "red", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 8}, {"name": "Oscilloscope", "nodeLevelId": "l19", "parentNodeId": "l18", "value": 1, "color": "red", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 9}, {"name": "Real-Time Oscilloscopes - General Purpose", "nodeLevelId": "l20", "parentNodeId": "l19", "value": 1, "color": "red", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 6}, {"name": "Profit", "nodeLevelId": "l142", "parentNodeId": "l1", "value": 1, "color": "red", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 2}, {"name": "Operations", "nodeLevelId": "l282", "parentNodeId": "l1", "value": 1, "color": "red", "gfId": "pg1:sg1:all", "processGroup": "pg1", "serviceGroup": "sg1", "nodeLevel": 2}], "dns": [{"Topic Id": "T1", "Role": "COO", "Title": "Total VQ Volume", "Value": {"Value Numerical": "", "Value Display": ""}, "Goal": {"Goal Numerical": "", "Goal Display": ""}, "Trend": "", "Text": {"Current Value": "Avg discharge time is 1 hr.", "Deviation And Trend": "deviationTrend", "Root Cause": "Process optimization", "Impact": "High", "Prediction": "Improving", "Suggestion": "Continue optimization"}, "Positive Contributors": [{"Department 1": "3 hrs"}, {"Department 2": "2.5 hrs"}], "Negative Contributors": [{"Department 3": "-1 hr"}], "Default Badge": "important", "Default Action": "must fix"}, {"Topic Id": "T2", "Role": "CEO", "Title": "Average Nursing Clearance Time", "Value": {"Value Numerical": "78", "Value Display": "78%"}, "Goal": {"Goal Numerical": "100", "Goal Display": "100%"}, "Trend": "Up", "Text": {"Current Value": "Avg discharge time is 1 hr.", "Deviation And Trend": "deviationTrend", "Root Cause": "staffing levels", "Impact": "Critical", "Prediction": "Improving", "Suggestion": "Hire additional staff"}, "Positive Contributors": [{"Department 1": "3 hrs"}, {"Department 2": "2.5 hrs"}], "Negative Contributors": [{"Department 3": "-2 hrs"}], "Default Badge": "", "Default Action": "accept"}], "processes": [{"processGroup": "pg1", "processGroupDisplayName": "Main Process", "processGroupId": 10000, "serviceGroup": "sg1", "serviceGroupDisplayName": "Sub-Process", "gfId": "pg1:sg1:all", "gfIdDisplayName": "Sub-Process", "normalCount": 12, "delayedCount": 10, "exceptionCount": 8, "outlierCount": 5}]};
+
+        function initializeTree(flatData) {
+            const nodeById = new Map();
+            flatData.forEach(d => nodeById.set(d.nodeLevelId, { ...d, children: [] }));
+
+            let root;
+            flatData.forEach(d => {
+                if (!d.parentNodeId) {
+                    root = nodeById.get(d.nodeLevelId);
+                } else {
+                    const parent = nodeById.get(d.parentNodeId);
+                    if (parent) parent.children.push(nodeById.get(d.nodeLevelId));
+                }
+            });
+
+            globalTreeData = flatData;
+            if (root) renderTree(root);
+        }
+
+        function renderTree(rootNode) {
+            const svg = document.getElementById("svg");
+            svg.innerHTML = "";
+
+            const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+            const width = svg.parentElement.clientWidth - margin.left - margin.right;
+            const height = svg.parentElement.clientHeight - margin.top - margin.bottom;
+
+            const container = d3.select(svg)
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const root = d3.hierarchy(rootNode);
+
+            root.each(d => {
+                d._children = d.children;
+                if (d.depth && d.depth > 1) d.children = null;
+            });
+
+            const treeLayout = d3.tree().size([height, width]);
+
+            let selectedNode = null;
+
+            function updateTree(source) {
+                treeLayout(root);
+
+                const nodes = root.descendants();
+                const links = root.links();
+
+                const link = container.selectAll(".link").data(links);
+
+                link.enter()
+                    .append("path")
+                    .attr("class", "link")
+                    .merge(link)
+                    .attr("d", d3.linkHorizontal()
+                        .x(d => d.y)
+                        .y(d => d.x));
+
+                link.exit().remove();
+
+                const node = container.selectAll(".node").data(nodes, d => d.data.nodeLevelId);
+
+                const nodeEnter = node.enter()
+                    .append("g")
+                    .attr("class", "node")
+                    .attr("transform", d => `translate(${d.y},${d.x})`);
+
+                nodeEnter.append("circle")
+                    .attr("r", 6)
+                    .attr("fill", d => getNodeColor(d.data.color))
+                    .attr("stroke", d => getNodeColor(d.data.color))
+                    .attr("stroke-width", 2);
+
+                nodeEnter.append("text")
+                    .attr("dy", "0.32em")
+                    .attr("x", d => d.children || d._children ? -10 : 10)
+                    .attr("text-anchor", d => d.children || d._children ? "end" : "start")
+                    .text(d => d.data.name);
+
+                nodeEnter.on("click", (event, d) => {
+                    if (d.children) {
+                        d._children = d.children;
+                        d.children = null;
+                    } else {
+                        d.children = d._children;
+                        d._children = null;
+                    }
+                    selectedNode = d;
+                    updateTree(d);
+                    updateKPIPanel(d);
+                });
+
+                nodeEnter.on("mouseenter", (event, d) => {
+                    const tooltip = d3.select("body").append("div")
+                        .attr("class", "tooltip")
+                        .style("left", event.pageX + 10 + "px")
+                        .style("top", event.pageY + 10 + "px")
+                        .text(`${d.data.name} (Level ${d.depth})`);
+
+                    d3.select(event.currentTarget).select("circle").attr("r", 8);
+                })
+                .on("mouseleave", (event, d) => {
+                    d3.selectAll(".tooltip").remove();
+                    d3.select(event.currentTarget).select("circle").attr("r", 6);
+                });
+
+                // Update selected state
+                d3.selectAll(".node").classed("selected", n => n === selectedNode);
+
+                node.exit().remove();
+            }
+
+            updateTree(root);
+
+            window.treeControls = {
+                expandAll: () => {
+                    root.each(d => {
+                        d.children = d._children;
+                        d._children = null;
+                    });
+                    updateTree(root);
+                },
+                collapseAll: () => {
+                    root.each(d => {
+                        if (d.depth) {
+                            d._children = d.children;
+                            d.children = null;
+                        }
+                    });
+                    updateTree(root);
+                },
+                reset: () => {
+                    selectedNode = null;
+                    root.each(d => {
+                        d._children = d.children;
+                        if (d.depth && d.depth > 1) d.children = null;
+                    });
+                    updateTree(root);
+                    updateKPIPanel(null);
+                }
+            };
+        }
+
+        function updateKPIPanel(node) {
+            const panel = document.getElementById("kpiPanel");
+
+            if (!node) {
+                panel.innerHTML = '<div class="empty-state">Select a node to view metrics</div>';
+                return;
+            }
+
+            // Build breadcrumb
+            const breadcrumbs = [];
+            let current = node;
+            while (current) {
+                breadcrumbs.unshift(current.data.name);
+                current = current.parent;
+            }
+
+            // Get relevant KPIs - show all if at root, filter by name otherwise
+            const relevantKpis = demoData.dns.length > 0 ? 
+                (node.depth <= 1 ? demoData.dns : demoData.dns.filter(kpi => 
+                    node.data.name.toLowerCase().includes("revenue") || 
+                    node.data.name.toLowerCase().includes("profit") ||
+                    node.data.name.toLowerCase().includes("operating")
+                )) : [];
+
+            let html = `
+                <div class="breadcrumb">
+                    ${breadcrumbs.map((b, i) => `
+                        <span class="breadcrumb-item">${b}</span>
+                        ${i < breadcrumbs.length - 1 ? '<span class="breadcrumb-separator">›</span>' : ''}
+                    `).join('')}
+                </div>
+            `;
+
+            if (relevantKpis.length > 0) {
+                relevantKpis.forEach(kpi => {
+                    const value = kpi.Value['Value Display'] || kpi.Value['Value Numerical'];
+                    const goal = kpi.Goal['Goal Display'] || kpi.Goal['Goal Numerical'];
+                    const statusClass = kpi['Default Action'] === "must fix" ? "danger" : kpi['Default Action'] === "accept" ? "success" : "warning";
+
+                    html += `
+                        <div class="kpi-card">
+                            <div class="kpi-title">${kpi.Title}</div>
+                            <div class="kpi-value">${value}</div>
+                            <div class="kpi-goal">Goal: ${goal}</div>
+                            <div class="kpi-status ${statusClass}">${kpi.Trend || 'Stable'} • ${kpi['Default Action']}</div>
+                            <div class="kpi-section-title">📈 Positive Contributors</div>
+                            <div class="contributor-list">
+                                ${kpi['Positive Contributors'].map(c => {
+                                    const [name, value] = Object.entries(c)[0];
+                                    return `<div class="contributor-item"><span>${name}</span><span class="contributor-positive">${value}</span></div>`;
+                                }).join('')}
+                            </div>
+                            <div class="kpi-section-title">📉 Negative Contributors</div>
+                            <div class="contributor-list">
+                                ${kpi['Negative Contributors'].map(c => {
+                                    const [name, value] = Object.entries(c)[0];
+                                    return `<div class="contributor-item"><span>${name}</span><span class="contributor-negative">${value}</span></div>`;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // Add process analytics if at root level
+            if (node.depth <= 1) {
+                const proc = demoData.processes[0];
+                const total = proc.normalCount + proc.delayedCount + proc.exceptionCount + proc.outlierCount;
+                html += `
+                    <div class="kpi-card">
+                        <div class="kpi-title">Process Performance</div>
+                        <div class="process-bar">
+                            <div class="process-label">Normal</div>
+                            <div class="process-value">${proc.normalCount}</div>
+                            <div class="process-bar-bg">
+                                <div class="process-bar-fill" style="width: ${(proc.normalCount/total)*100}%; background-color: var(--color-green);"></div>
+                            </div>
+                        </div>
+                        <div class="process-bar">
+                            <div class="process-label">Delayed</div>
+                            <div class="process-value">${proc.delayedCount}</div>
+                            <div class="process-bar-bg">
+                                <div class="process-bar-fill" style="width: ${(proc.delayedCount/total)*100}%; background-color: var(--color-orange);"></div>
+                            </div>
+                        </div>
+                        <div class="process-bar">
+                            <div class="process-label">Exception</div>
+                            <div class="process-value">${proc.exceptionCount}</div>
+                            <div class="process-bar-bg">
+                                <div class="process-bar-fill" style="width: ${(proc.exceptionCount/total)*100}%; background-color: var(--color-red);"></div>
+                            </div>
+                        </div>
+                        <div class="process-bar">
+                            <div class="process-label">Outlier</div>
+                            <div class="process-value">${proc.outlierCount}</div>
+                            <div class="process-bar-bg">
+                                <div class="process-bar-fill" style="width: ${(proc.outlierCount/total)*100}%; background-color: #8b7355;"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            panel.innerHTML = html;
+        }
+
+        function getNodeColor(colorName) {
+            const colorMap = {
+                red: "#c01e2f",
+                orange: "#a84b2f",
+                green: "#138259",
+                blue: "#2180a8"
+            };
+            return colorMap[colorName] || "#999";
+        }
+
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            window.treeControls?.reset();
+        });
+
+        document.getElementById("expandAllBtn").addEventListener("click", () => {
+            window.treeControls?.expandAll();
+        });
+
+        document.getElementById("collapseAllBtn").addEventListener("click", () => {
+            window.treeControls?.collapseAll();
+        });
+
+        // Initialize with demo data
+        initializeTree(demoData.decisionTree);
+
+        window.addEventListener("resize", () => {
+            const nodes = JSON.parse(JSON.stringify(d3.select("#svg").datum()));
+            if (nodes) renderTree(nodes);
+        });
+    </script>
+</body>
+</html>

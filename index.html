@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced KPI Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="top-header">
+        <div class="client-logo">
+            <div class="logo-icon">AI</div>
+            <div class="company-name">Acme Inc.</div>
+        </div>
+        <div class="main-title">
+            <h1>Enterprise Digital Nervous System</h1>
+        </div>
+        <div class="user-info">
+            <div class="user-avatar">JD</div>
+            <div class="user-name">John Doe</div>
+        </div>
+    </div>
+
+    <div class="nav-tabs">
+        <div class="tabs-container">
+            <button class="tab-item active" onclick="switchTab('summary')">Summary</button>
+            <button class="tab-item" onclick="switchTab('planning-agent')">Planning Agent</button>
+            <button class="tab-item" onclick="switchTab('control-agent')">Control Agent</button>
+            <button class="tab-item" onclick="switchTab('improvement-agent')">Improvement Agent</button>
+            <button class="tab-item" onclick="switchTab('news-insights')">News Insights</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- ========== SUMMARY TAB ========== -->
+        <div class="tab-content active" id="summary">
+            <div class="container">
+                <div class="main-panel">
+                    <!-- Hero Section -->
+                    <div class="summary-hero">
+                        <div class="welcome-text">Welcome back, John</div>
+                        <p class="last-update">Last update: 10/30/2025, 1:00 PM EDT</p>
+                        <div class="hero-metrics">
+                            <div class="hero-metric">
+                                <div class="metric-label">Enterprise Health</div>
+                                <div class="metric-value value-critical">Critical</div>
+                                <div class="metric-trend trend-negative">▼ 3.2% vs last week</div>
+                            </div>
+                            <div class="hero-metric">
+                                <div class="metric-label">OTIF (On-Time In-Full)</div>
+                                <div class="metric-value value-warning">87.2%</div>
+                                <div class="metric-trend trend-negative">Target: 95%</div>
+                            </div>
+                            <div class="hero-metric">
+                                <div class="metric-label">Stock Out Rate</div>
+                                <div class="metric-value value-critical">4.8%</div>
+                                <div class="metric-trend trend-negative">Target: &lt; 2%</div>
+                            </div>
+                            <div class="hero-metric">
+                                <div class="metric-label">Cost Per Unit</div>
+                                <div class="metric-value value-warning">$24.50</div>
+                                <div class="metric-trend trend-negative">Target: $22.00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Critical Issues Section -->
+                    <div class="summary-section">
+                        <div class="section-header expanded" id="critical-issues-section" onclick="toggleSection('critical-issues-section')">
+                            <div class="section-title"><span class="priority-badge badge-critical">Critical Issues (4)</span></div>
+                            <div class="expand-icon">▲</div>
+                        </div>
+                        <div class="section-content expanded" id="critical-issues-content">
+                            <div class="insight-grid">
+                                <div class="insight-card critical" onclick="explainSummaryItem('stockout-crisis', this)">
+                                    <div class="insight-header">
+                                        <span class="insight-title">Stock Out Rate</span>
+                                        <span class="insight-value value-critical">4.8%</span>
+                                    </div>
+                                    <div class="insight-description">Rate is 140% above 2% target.</div>
+                                    <div class="insight-impact">Est. $280K/month lost sales.</div>
+                                </div>
+                                <div class="insight-card warning" onclick="explainSummaryItem('otif-decline', this)">
+                                    <div class="insight-header">
+                                        <span class="insight-title">OTIF Delivery</span>
+                                        <span class="insight-value value-warning">87.2%</span>
+                                    </div>
+                                    <div class="insight-description">Trend declining, 7.8% below 95% target.</div>
+                                    <div class="insight-impact">3 major customer contracts at risk.</div>
+                                </div>
+                                <div class="insight-card warning" onclick="explainSummaryItem('cost-overrun', this)">
+                                    <div class="insight-header">
+                                        <span class="insight-title">Cost Per Unit</span>
+                                        <span class="insight-value value-warning">$24.50</span>
+                                    </div>
+                                    <div class="insight-description">11% over $22 target, eroding margin.</div>
+                                    <div class="insight-impact">3.2% gross margin compression.</div>
+                                </div>
+                                <div class="insight-card warning" onclick="explainSummaryItem('lead-time-delay', this)">
+                                    <div class="insight-header">
+                                        <span class="insight-title">Lead Time</span>
+                                        <span class="insight-value value-warning">12.3 Days</span>
+                                    </div>
+                                    <div class="insight-description">54% above 8-day target, causes stockouts.</div>
+                                    <div class="insight-impact">Increased expedited shipping costs.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Opportunities Section -->
+                    <div class="summary-section">
+                        <div class="section-header" id="opportunities-section" onclick="toggleSection('opportunities-section')">
+                            <div class="section-title"><span class="priority-badge badge-success">Key Opportunities (4)</span></div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                        <div class="section-content" id="opportunities-content">
+                            <div class="insight-grid">
+                                <div class="insight-card success" onclick="explainSummaryItem('production-efficiency', this)">
+                                    <div class="insight-title">Production Efficiency</div>
+                                    <div class="insight-description">At 78.9%, trend is positive (+2.3%).</div>
+                                </div>
+                                <div class="insight-card success" onclick="explainSummaryItem('warehouse-optimization', this)">
+                                    <div class="insight-title">Warehouse Utilization</div>
+                                    <div class="insight-description">92.1% (vs 88% target), provides capacity buffer.</div>
+                                </div>
+                                <div class="insight-card info" onclick="explainSummaryItem('market-recovery', this)">
+                                    <div class="insight-title">Market Recovery</div>
+                                    <div class="insight-description">Tech & Energy sectors show +8% growth.</div>
+                                </div>
+                                <div class="insight-card info" onclick="explainSummaryItem('supplier-performance', this)">
+                                    <div class="insight-title">Supplier OTD</div>
+                                    <div class="insight-description">Improving (+1.2%), new vendor program working.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-panel">
+                    <div class="chat-header">
+                        <div class="chat-title">Enterprise Copilot</div>
+                        <div class="chat-subtitle">Summary & Triage</div>
+                    </div>
+                    <div class="chat-messages" id="summary-chat-messages">
+                        <div class="message assistant">
+                            <div class="message-bubble">Welcome, John. Your Supply Chain Health is **Critical**. The primary issues are a **4.8% Stock Out Rate** and **87.2% OTIF**. Click an issue on the left or ask me for details.</div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <div class="input-group">
+                            <textarea class="chat-input-field" id="summary-chat-input" name="summary-chat-input" placeholder="Ask about critical issues..." onkeypress="handleSummaryChatKeyPress(event)"></textarea>
+                            <button class="send-btn" onclick="sendSummaryChatMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== PLANNING AGENT TAB ========== -->
+        <div class="tab-content" id="planning-agent">
+            <div class="sub-nav-tabs">
+                <div class="sub-tabs-container">
+                    <button class="tab-item sub-tab-item active" onclick="switchSubTab('analytics-studio', this)">Analytics Studio</button>
+                    <button class="tab-item sub-tab-item" onclick="switchSubTab('simulation-agent', this)">Simulation Studio</button>
+                </div>
+            </div>
+
+            <!-- Analytics Studio Sub-Tab -->
+            <div class="sub-tab-content active" id="analytics-studio" style="display: flex;">
+                <div class="container">
+                    <div class="main-panel dashboard">
+                        <!-- This is kpi-grid-view -->
+                        <div id="kpi-grid-view">
+                            <div class="current-kpis">
+                                <div class="section-title-kpi">KPI Analysis <span class="section-subtitle">Select up to 4 KPIs to optimize</span></div>
+                                <div class="select-bar">
+                                    <button id="selectAllBtn" class="select-all-btn" onclick="toggleSelectAll()">Select All</button>
+                                    <button id="showAllBtn" class="show-all-btn" onclick="toggleShowAllKPIs()">Show All (12)</button>
+                                </div>
+                                <div class="kpi-grid" id="current-kpis">
+                                    <!-- KPI cards will be populated here by script.js -->
+                                </div>
+                            </div>
+
+                            <button id="opt-btn" class="optimize-btn" onclick="startOptimization()">Start Optimization</button>
+                            
+                            <div class="trajectory-panel" id="trajectory-panel" style="display: none;">
+                                <div class="trajectory-header">
+                                    <div class="section-title-kpi">Optimization Trajectories</div>
+                                    <button class="review-btn" onclick="showTradeoffImpactModal()">Review Tradeoffs & Apply</button>
+                                </div>
+                                <div class="trajectory-grid" id="trajectory-grid">
+                                </div>
+                                <div class="details-panel" id="trajectory-details" style="display: none;">
+                                    <div id="trajectory-detail-content"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- This is kpi-detail-view (hidden by default) -->
+                        <div id="kpi-detail-view" style="display: none;">
+                            <div class="breadcrumb-nav" id="breadcrumb-nav" style="display: none;">
+                                <button class="breadcrumb-btn" onclick="showKPIGrid()">← Back to KPIs</button>
+                                <span class="breadcrumb-divider">/</span>
+                                <span class="breadcrumb-current">KPI Detail</span>
+                            </div>
+                            <div class="kpi-detail-compact">
+                                <div class="kpi-detail-main-panel">
+                                    <div class="kpi-detail-content-inline">
+                                        <div class="kpi-detail-header-inline">
+                                            <h2 id="kpi-detail-title-inline">KPI Name</h2>
+                                        </div>
+                                        <div class="kpi-detail-body-inline">
+                                            <div class="kpi-summary-section">
+                                                <div class="kpi-main-info">
+                                                    <div class="kpi-current-value">
+                                                        <span id="kpi-detail-value-inline">0.0%</span>
+                                                        <span id="kpi-detail-status-inline" class="kpi-detail-status status-met">On Target</span>
+                                                    </div>
+                                                    <div class="kpi-goal-info">
+                                                        <span>Target: <strong id="kpi-detail-goal-inline">0.0%</strong></span>
+                                                        <span>Trend: <strong id="kpi-detail-trend-inline" class="change-positive">+0.0%</strong></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="time-range-selector">
+                                                <button class="time-btn active" onclick="selectTimeRange('weekly', this)">Weekly</button>
+                                                <button class="time-btn" onclick="selectTimeRange('monthly', this)">Monthly</button>
+                                                <button class="time-btn" onclick="selectTimeRange('quarterly', this)">Quarterly</button>
+                                            </div>
+                                            <div class="chart-container" style="height: 350px;">
+                                                <canvas id="kpi-trend-chart-inline"></canvas>
+                                            </div>
+                                            <div class="analysis-section">
+                                                <div class="contributors-section">
+                                                    <h3>Performance Drivers</h3>
+                                                    <div class="contributors-grid">
+                                                        <div class="contributors-column">
+                                                            <h4>Positive</h4>
+                                                            <div id="positive-contributors-inline"></div>
+                                                        </div>
+                                                        <div class="contributors-column">
+                                                            <h4>Negative</h4>
+                                                            <div id="negative-contributors-inline"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="root-cause-analysis">
+                                                    <h3>Root Cause Analysis</h3>
+                                                    <div class="root-cause-content" id="root-cause-content-inline"></div>
+                                                </div>
+                                                <div class="recommended-actions">
+                                                    <h3>Recommended Actions</h3>
+                                                    <div class="recommendations-grid" id="recommendations-grid-inline"></div>
+                                                </div>
+                                            </div>
+                                            <div class="kpi-action-buttons">
+                                                <button class="discuss-btn" onclick="addToDiscussion()">Discuss with Team</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="related-kpi-section">
+                                    <div class="related-kpi-header-inline">
+                                        <h2>Related KPIs</h2>
+                                    </div>
+                                    <div class="related-kpi-body-inline">
+                                        <div class="related-kpi-cards-grid" id="related-kpi-cards">
+                                            <!-- Related KPI cards populated by script.js -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-panel" id="planning-agent-chat-panel">
+                        <div class="chat-header">
+                            <div class="chat-title">Planning Agent</div>
+                            <div class="chat-subtitle">Analytics & Optimization</div>
+                        </div>
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="message assistant">
+                                <div class="message-bubble">I am the Planning Agent. Select 1-4 KPIs from the grid and I will run an optimization analysis to find the best improvement trajectories.</div>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <div class="input-group">
+                                <textarea class="chat-input-field" id="planning-chat-input" name="planning-chat-input" placeholder="Ask about optimization..." onkeypress="handleChatKeyPress(event)"></textarea>
+                                <button class="send-btn" onclick="sendChatMessage()">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulation Studio Sub-Tab (RESTORED) -->
+            <div class="sub-tab-content" id="simulation-agent" style="display: none;">
+                <div class="container" id="simulation-dashboard"> <!-- Add ID for specific styles -->
+                    <div class="main-panel">
+                        <div class="sim-dashboard-container">
+                            <div class="dashboard-header">
+                                <p>Adjust controls to simulate scenarios and see predicted KPI outcomes.</p>
+                            </div>
+                            <div class="dashboard-layout">
+                                <div class="main-content">
+                                    <div class="kpi-section">
+                                        <h2>Predicted KPI Impact</h2>
+                                        <div class="kpi-grid" id="sim-kpi-grid">
+                                            <!-- Simulation KPI cards populated by script.js -->
+                                        </div>
+                                    </div>
+                                    <div class="recommendations-section">
+                                        <h2>Smart Recommendations</h2>
+                                        <div class="recommendations-container" id="sim-recommendations-container">
+                                            <!-- Simulation recommendations populated by script.js -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="controls-sidebar">
+                                    <div class="controls-header">
+                                        <h2>Scenario Controls</h2>
+                                    </div>
+                                    <div class="controls-content">
+                                        <div class="sliders-container" id="sim-sliders-container">
+                                            <!-- Simulation sliders populated by script.js -->
+                                        </div>
+                                        <div class="reset-controls">
+                                            <button class="btn btn--secondary" id="sim-simulate-btn">Simulate</button>
+                                            <br><br>
+                                            <button class="btn btn--secondary" id="sim-reset-btn">Reset to Baseline</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-panel" id="simulation-agent-chat-panel">
+                        <div class="chat-header">
+                            <div class="chat-title">Simulation Agent</div>
+                            <div class="chat-subtitle">Scenario Planning</div>
+                        </div>
+                        <div class="chat-messages" id="sim-chat-messages">
+                            <!-- Initial message added by script.js -->
+                        </div>
+                        <div class="chat-input">
+                            <div class="input-group">
+                                <textarea class="chat-input-field" id="sim-chat-input" name="sim-chat-input" placeholder="Ask about the simulation..." onkeypress="simHandleChatKeyPress(event)"></textarea>
+                                <button class="send-btn" onclick="simSendChatMessage()">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== CONTROL AGENT TAB ========== -->
+                <!-- ========== CONTROL AGENT TAB ========== -->
+        <div class="tab-content" id="control-agent">
+            <div class="ctrl-main-container">
+                <!-- Sub-tabs Navigation -->
+                <div class="ctrl-sub-tabs-wrapper">
+                    <div class="ctrl-sub-tabs">
+                        <button class="ctrl-sub-tab-item active" onclick="switchCtrlSubTab('action-tracker')">Action Tracker</button>
+                        <button class="ctrl-sub-tab-item" onclick="switchCtrlSubTab('workflow-studio')">Workflow Studio</button>
+                    </div>
+                </div>
+
+                <!-- Content Wrapper -->
+                <div class="ctrl-content-wrapper">
+                    <!-- Action Tracker Content -->
+                    <div class="ctrl-sub-content active" id="action-tracker">
+                        <div class="container">
+                            <div class="main-panel control-wrapper">
+                    <!-- Kanban View -->
+                    <div id="kanban-view-ctrl" class="ctrl-view active">
+                        <div class="ctrl-header">
+                            <h2>Action Tracker</h2>
+                            <div class="ctrl-stats">
+                                <span>Total: <strong id="ctrl-total">0</strong></span>
+                                <span>Active: <strong id="ctrl-active">0</strong></span>
+                            </div>
+                        </div>
+                        <div class="ctrl-actions">
+                            <div class="ctrl-search">
+                                <input type="text" id="ctrl-search-input" placeholder="Search ID, Title, Assignee..." onkeyup="searchCtrlTickets(this.value)">
+                                <button id="ctrl-clear-btn" style="display: none;" onclick="clearCtrlSearch()">&times;</button>
+                            </div>
+                        </div>
+                        <div class="ctrl-kanban">
+                            <div class="ctrl-col" id="col-open">
+                                <div class="ctrl-col-head"><h3>Open</h3><span id="ctrl-open-count" class="ctrl-count">0</span></div>
+                                <div class="ctrl-col-body" id="ctrl-open"></div>
+                            </div>
+                            <div class="ctrl-col" id="col-progress">
+                                <div class="ctrl-col-head"><h3>In Progress</h3><span id="ctrl-progress-count" class="ctrl-count">0</span></div>
+                                <div class="ctrl-col-body" id="ctrl-progress"></div>
+                            </div>
+                            <div class="ctrl-col" id="col-resolved">
+                                <div class="ctrl-col-head"><h3>Resolved</h3><span id="ctrl-resolved-count" class="ctrl-count">0</span></div>
+                                <div class="ctrl-col-body" id="ctrl-resolved"></div>
+                            </div>
+                            <div class="ctrl-col" id="col-closed">
+                                <div class="ctrl-col-head"><h3>Closed</h3><span id="ctrl-closed-count" class="ctrl-count">0</span></div>
+                                <div class="ctrl-col-body" id="ctrl-closed"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Detail View -->
+                    <div id="detail-view-ctrl" class="ctrl-view ctrl-detail">
+                        <div class="ctrl-detail-header">
+                            <button class="ctrl-back" id="ctrl-back-btn" onclick="closeCtrlDetail()">← Back to Board</button>
+                            <div>
+                                <span class="ctrl-detail-id" id="detail-id">TKT-000</span>
+                                <h2 id="detail-title" contenteditable="true">Ticket Title</h2>
+                            </div>
+                            <button class="ctrl-action-btn" id="detail-action">Start Progress</button>
+                        </div>
+
+                        <!-- Watch and Share Actions -->
+                        <div class="ctrl-action-icons">
+                            <button class="ctrl-icon-btn watch-btn" id="watch-btn" title="Watch this ticket">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                <span>Watch</span>
+                            </button>
+                            <button class="ctrl-icon-btn share-btn" id="share-btn" title="Share this ticket">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                                <span>Share</span>
+                            </button>
+                        </div>
+
+                        <div class="ctrl-detail-body">
+                            <div class="ctrl-detail-main">
+                                <div class="ctrl-section">
+                                    <h3 class="ctrl-toggle" onclick="toggleCtrlSection(this)">Details <span>▼</span></h3>
+                                    <div class="ctrl-section-body ctrl-fields">
+                                        <!-- Need to add f-id input for openCtrlDetail to work -->
+                                        <input type="hidden" id="f-id"> 
+                                        <div class="full"><label for="f-desc">Description</label><textarea id="f-desc" rows="4"></textarea></div>
+                                        <div class="full"><label for="f-action">Recommended Action</label><textarea id="f-action" rows="3"></textarea></div>
+                                    </div>
+                                </div>
+                                <div class="ctrl-section">
+                                    <h3 class="ctrl-toggle" onclick="toggleCtrlSection(this)">Activity <span>▼</span></h3>
+                                    <div class="ctrl-section-body">
+                                        <div class="ctrl-tabs">
+                                            <button class="active" onclick="switchCtrlTab('all')">All</button>
+                                            <button onclick="switchCtrlTab('comments')">Comments</button>
+                                            <button onclick="switchCtrlTab('history')">History</button>
+                                        </div>
+                                        <div class="ctrl-tab-content">
+                                            <div id="tab-all" class="ctrl-tab-pane active"><div id="activity-list"></div></div>
+                                            <div id="tab-comments" class="ctrl-tab-pane"><div id="comments-list"></div></div>
+                                            <div id="tab-history" class="ctrl-tab-pane"><div id="history-list"></div></div>
+                                        </div>
+                                        <div class="ctrl-input-area">
+                                            <textarea id="comment-input" placeholder="Add a comment..."></textarea>
+                                            <button onclick="addCtrlComment()">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ctrl-detail-side">
+                                <div class="ctrl-section">
+                                    <h3 class="ctrl-toggle" onclick="toggleCtrlSection(this)">Properties <span>▼</span></h3>
+                                    <div class="ctrl-section-body ctrl-fields">
+                                        <div><label for="f-status">Status</label><input type="text" id="f-status" readonly></div>
+                                        <div><label for="f-context">KPI Context</label><input type="text" id="f-context" readonly></div>
+                                        <div><label for="f-assignee">Assignee</label><select id="f-assignee"></select></div>
+                                        <div><label for="f-team">Team</label><select id="f-team"></select></div>
+                                        <div><label for="f-assignor">Assignor</label><input type="text" id="f-assignor" readonly></div>
+                                    </div>
+                                </div>
+                                <div class="ctrl-section">
+                                    <h3 class="ctrl-toggle" onclick="toggleCtrlSection(this)">Skills Needed <span>▼</span></h3>
+                                    <div class="ctrl-section-body">
+                                        <div class="ctrl-chips" id="f-skills"></div>
+                                        <div class="ctrl-add-skill">
+                                            <input type="text" id="skill-input" placeholder="Add skill...">
+                                            <button onclick="addCtrlSkill()">Add</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-panel" id="control-agent-chat-panel">
+                    <div class="chat-header">
+                        <div class="chat-title">Control Agent</div>
+                        <div class="chat-subtitle">Action & Execution</div>
+                    </div>
+                    <div class="chat-messages" id="ctrl-chat-messages">
+                        <div class="message assistant">
+                            <div class="message-bubble">I am the Control Agent. I track all active tickets. Ask me for the status of a ticket (e.g., 'status TKT-001') or to find high-priority items.</div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <div class="input-group">
+                            <textarea class="chat-input-field" id="control-chat-input" name="control-chat-input" placeholder="Ask about tickets..." onkeypress="handleCtrlChatKeyPress(event, 'control')"></textarea>
+                            <button class="send-btn" onclick="sendCtrlChatMessage('control')">Send</button>
+                        </div>
+                    </div>
+                </div>
+                        </div>
+                    </div>
+
+                    <!-- Workflow Studio Content -->
+                    <div class="ctrl-sub-content" id="workflow-studio-ctrl">
+                        <div class="container">
+                            <div class="main-panel workflow-wrapper">
+                    
+                    <!-- View 1: Value Stream Map (Default) -->
+                    <div id="vsm-view" style="display: flex;">
+                        <h2 class="workflow-title">Agentic Workflow Dashboard (VSM)</h2>
+                        
+                        <div class="workflow-summary">
+                            <div class="workflow-summary-item">
+                                <div class="metric-label">Total Lead Time (L/T)</div>
+                                <div class="metric-value">42.5 Hrs</div>
+                            </div>
+                            <div class="workflow-summary-item">
+                                <div class="metric-label">Total Cycle Time (C/T)</div>
+                                <div class="metric-value">5.8 Hrs</div>
+                            </div>
+                            <div class="workflow-summary-item">
+                                <div class="metric-label">Takt Time</div>
+                                <div class="metric-value">20 min</div>
+                            </div>
+                            <div class="workflow-summary-item">
+                                <div class="metric-label">Total WIP (Inventory)</div>
+                                <div class="metric-value">85 units</div>
+                            </div>
+                        </div>
+
+                        <!-- VSM Stages -->
+                        <div class="workflow-stages-container">
+                            <div class="workflow-stages">
+                                <!-- Stage 1: Order Intake -->
+                                <div class="workflow-stage" onclick="showOrderDetailView('Order Intake')">
+                                    <div class="stage-title">1. Order Intake</div>
+                                    <div class="stage-metrics">
+                                        <div class="metric-item"><span class="metric-label">Cycle Time (C/T)</span><span class="metric-value">0.5 Hrs</span></div>
+                                        <div class="metric-item"><span class="metric-label">Wait Time (W/T)</span><span class="metric-value">0.2 Hrs</span></div>
+                                        <div class="metric-item"><span class="metric-label">WIP</span><span class="metric-value">15</span></div>
+                                        <div class="metric-item"><span class="metric-label">Uptime</span><span class="metric-value">99.8%</span></div>
+                                        <div class="metric-item"><span class="metric-label">% C&A</span><span class="metric-value">98%</span></div>
+                                    </div>
+                                </div>
+                                <div class="flow-arrow"><div class="flow-label">W/T: 8.0 Hrs</div><div class="flow-line">&rarr;</div></div>
+                                <!-- Stage 2: Processing -->
+                                <div class="workflow-stage" onclick="showOrderDetailView('Processing')">
+                                    <div class="stage-title">2. Processing</div>
+                                    <div class="stage-metrics">
+                                        <div class="metric-item"><span class="metric-label">Cycle Time (C/T)</span><span class="metric-value">2.0 Hrs</span></div>
+                                        <div class="metric-item"><span class="metric-label">Wait Time (W/T)</span><span class="metric-value">1.5 Hrs</span></div>
+                                        <div class="metric-item"><span class="metric-label">WIP</span><span class="metric-value">25</span></div>
+                                        <div class="metric-item"><span class="metric-label">Uptime</span><span class="metric-value">92.0%</span></div>
+                                        <div class="metric-item"><span class="metric-label">% C&A</span><span class="metric-value">99%</span></div>
+                                    </div>
+                                </div>
+                                <div class="flow-arrow bottleneck-wait"><div class="flow-label">W/T: 24.0 Hrs</div><div class="flow-line">&rarr;</div></div>
+                                <!-- Stage 3: Quality Check -->
+                                <div class="workflow-stage bottleneck" onclick="showOrderDetailView('Quality Check')">
+                                    <div class="stage-title">3. Quality Check</div>
+                                    <div class="stage-metrics">
+                                        <div class="metric-item"><span class="metric-label">Cycle Time (C/T)</span><span class="metric-value">1.8 Hrs</span></div>
+                                        <div class="metric-item"><span class="metric-label">Wait Time (W/T)</span><span class="metric-value">4.0 Hrs</span></div>
+                                        <div class="metric-item"><span class="metric-label">WIP</span><span class="metric-value">30</span></div>
+                                        <div class="metric-item"><span class="metric-label">Uptime</span><span class="metric-value">95.0%</span></div>
+                                        <div class="metric-item"><span class="metric-label">% C&A</span><span class="metric-value">94%</span></div>
+                                    </div>
+                                </div>
+                                <div class="flow-arrow"><div class="flow-label">W/T: 2.5 Hrs</div><div class="flow-line">&rarr;</div></div>
+                                <!-- Stage 4: Shipping -->
+                                <div class="workflow-stage" onclick="showOrderDetailView('Shipping')">
+                                    <div class="stage-title">4. Shipping</div>
+                                    <div class="stage-metrics">
+                                        <div class="metric-item"><span class="metric-label">Cycle Time (C/T)</span><span class="metric-value">1.5 Hrs</span></div>
+                                        <div class="metric-item"><span class="metric-label">Wait Time (W/T)</span><span class="metric-value">0.5 Hrs</span></div>
+                                        <div class="metric-item"><span class="metric-label">WIP</span><span class="metric-value">15</span></div>
+                                        <div class="metric-item"><span class="metric-label">Uptime</span><span class="metric-value">98.0%</span></div>
+                                        <div class="metric-item"><span class="metric-label">% C&A</span><span class="metric-value">100%</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottlenecks & Recommendations (RESTORED) -->
+                        <div class="workflow-recommendations">
+                            <h3>Bottlenecks & Opportunities</h3>
+                            <div class="recommendation-box" id="rec-qc-bottleneck">
+                                <div class="rec-title"><strong>Bottleneck Identified:</strong> High Wait Time at Quality Check (24.0 Hrs)</div>
+                                <div class="rec-body">
+                                    <p>The wait time before Stage 3 (Quality Check) accounts for <strong>56%</strong> of the total Lead Time. The high WIP (30 units) and low %C&A (94%) at this stage suggest a significant bottleneck.</p>
+                                    <p><strong>Recommendation to Improve SLA:</strong></p>
+                                    <ul>
+                                        <li>Automate parts of the QC process with an AI vision agent to reduce manual inspection time (C/T).</li>
+                                        <li>Implement parallel processing for QC tasks instead of a single queue to reduce wait time (W/T).</li>
+                                        <li>Review upstream (Processing) for root causes of 6% error rate (%C&A) to reduce rework loops.</li>
+                                    </ul>
+                                </div>
+                                <div class="recommendation-actions">
+                                    <button class="accept-btn" onclick="workflowAcceptRec('TKT-QC-001')">Create Ticket</button>
+                                    <button class="reject-btn" onclick="workflowRejectRec('rec-qc-bottleneck')">Dismiss</button>
+                                </div>
+                            </div>
+                            <div class="recommendation-box" id="rec-processing-uptime">
+                                <div class="rec-title"><strong>Opportunity:</strong> Low Uptime at Processing (92.0%)</div>
+                                <div class="rec-body">
+                                    <p>Stage 2 (Processing) has the lowest uptime of all stages. This unplanned downtime likely contributes to the massive 24-hour wait time for the next stage.</p>
+                                    <p><strong>Recommendation to Improve SLA:</strong></p>
+                                    <ul>
+                                        <li>Deploy a predictive maintenance agent to monitor machine health and schedule service *before* failures occur.</li>
+                                        <li>Analyze changeover times; if high, create a ticket to optimize the changeover process.</li>
+                                    </ul>
+                                </div>
+                                <div class="recommendation-actions">
+                                    <button class="accept-btn" onclick="workflowAcceptRec('TKT-PROC-002')">Create Ticket</button>
+                                    <button class="reject-btn" onclick="workflowRejectRec('rec-processing-uptime')">Dismiss</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of VSM View -->
+
+                    <!-- View 2: Order Detail Grid (Hidden by default) (RESTORED) -->
+                    <div id="order-detail-view" style="display: none;">
+                        <div class="workflow-detail-header">
+                            <button class="ctrl-back" onclick="showVSMView()">← Back to VSM</button>
+                            <h2 class="workflow-title" id="workflow-detail-title">Order Details</h2>
+                        </div>
+
+                        <!-- Controls for the data grid -->
+                        <div class="workflow-controls">
+                            <div class="ctrl-search">
+                                <input type="text" id="workflow-search-input" placeholder="Search Order ID...">
+                            </div>
+                            <select id="workflow-filter-stage">
+                                <option value="">All Stages</option>
+                                <!-- Populated by script -->
+                            </select>
+                            <select id="workflow-filter-status">
+                                <option value="">All SLA Statuses</option>
+                                <option value="On Track">On Track</option>
+                                <option value="At Risk">At Risk</option>
+                                <option value="Delayed">Delayed</option>
+                            </select>
+                            <select id="workflow-filter-country">
+                                <option value="">All Countries</option>
+                                <!-- Populated by script -->
+                            </select>
+                            <select id="workflow-filter-region">
+                                <option value="">All Regions</option>
+                                <!-- Populated by script -->
+                            </select>
+                            <select id="workflow-filter-warehouse">
+                                <option value="">All Warehouses</option>
+                                <!-- Populated by script -->
+                            </select>
+                            <select id="workflow-filter-team">
+                                <option value="">All Teams</option>
+                                <!-- Populated by script -->
+                            </select>
+                            <button class="show-all-btn" id="workflow-clear-filters">Clear Filters</button>
+                        </div>
+
+                        <!-- Data Grid Container -->
+                        <div class="workflow-table-container">
+                            <table class="workflow-order-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Current Stage</th>
+                                        <th>Time in Stage</th>
+                                        <th>SLA Status</th>
+                                        <th>Identified Bottleneck</th>
+                                        <th>Recommendation</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="workflow-order-tbody">
+                                    <!-- Rows will be dynamically injected here by script.js -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination Controls -->
+                        <div class="workflow-pagination">
+                            <span id="workflow-page-info">Showing 0-0 of 0 orders</span>
+                            <div class="pagination-buttons">
+                                <button id="workflow-prev-page" class="cancel-btn">Previous</button>
+                                <button id="workflow-next-page" class="review-btn">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of Order Detail View -->
+                </div>
+
+                <div class="chat-panel" id="workflow-chat-panel">
+                    <div class="chat-header">
+                        <div class="chat-title">Workflow Agent</div>
+                        <div class="chat-subtitle">AI-powered VSM & Process Optimization</div>
+                    </div>
+                    <div class="chat-messages" id="workflow-chat-messages">
+                        <div class="message assistant">
+                            <div class="message-bubble">I'm the Workflow Agent. I've mapped your current value stream. The **Quality Check** stage and its preceding wait time are the primary bottlenecks. Click a stage or ask me for details.</div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <div class="input-group">
+                            <textarea class="chat-input-field" id="workflow-input" name="workflow-input" placeholder="Ask about bottlenecks or lead time..." onkeypress="handleWorkflowChatKeyPress(event)"></textarea>
+                            <button class="send-btn" onclick="sendWorkflowChatMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- ========== IMPROVEMENT AGENT TAB (REPLACED CONTENT) ========== -->
+                <!-- ========== IMPROVEMENT AGENT TAB (REPLACED CONTENT) ========== -->
+                <!-- ========== IMPROVEMENT AGENT TAB (REPLACED CONTENT) ========== -->
+        <div class="tab-content" id="improvement-agent">
+            <div class="container">
+                <div class="main-panel">
+
+                <!-- Key Metrics -->
+                <div class="stats-grid">
+                    <div class="stat-card success">
+                        <div class="stat-label">Learnings Captured</div>
+                        <div class="stat-value">34</div>
+                        <div class="stat-trend positive">↑ 12 from last month</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-label">Active Risks</div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-trend negative">3 require attention</div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-label">Opportunities</div>
+                        <div class="stat-value">15</div>
+                        <div class="stat-trend positive">5 high-impact identified</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Decision Quality</div>
+                        <div class="stat-value">87%</div>
+                        <div class="stat-trend positive">↑ 4% improvement</div>
+                    </div>
+                </div>
+
+                <!-- Personalized Insights Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            Your Personalized Insights
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="filter-bar">
+                            <button class="filter-btn active" onclick="filterInsights('learning')">Learnings</button>
+                            <button class="filter-btn" onclick="filterInsights('risk')">Risks</button>
+                            <button class="filter-btn" onclick="filterInsights('opportunity')">Opportunities</button>
+                        </div>
+
+                        <div class="insight-grid" id="insights-grid">
+                            <!-- Learning Insight -->
+                            <div class="insight-card learning" data-type="learning" data-insight-id="forecast-accuracy">
+                                <div class="insight-header">
+                                    <span class="insight-type learning">Learning</span>
+                                </div>
+                                <div class="insight-title">Forecast Accuracy Directly Impacts Stock-Out Rate</div>
+                                <div class="insight-description">
+                                    Over the past 6 weeks, you've optimized forecast accuracy 4 times in the Planning Agent. Each 2% improvement in forecast accuracy reduced stock-out rate by 0.5%.
+                                </div>
+                                <div class="insight-meta">
+                                    <span class="insight-source"> From Planning Agent</span>
+                                    <span>Confidence: 92%</span>
+                                </div>
+                            </div>
+
+                            <!-- Risk Insight -->
+                            <div class="insight-card risk" data-type="risk" data-insight-id="supplier-reactive">
+                                <div class="insight-header">
+                                    <span class="insight-type risk">Risk</span>
+                                </div>
+                                <div class="insight-title">Reactive Pattern on Supplier OTD Issues</div>
+                                <div class="insight-description">
+                                    You've addressed supplier reliability only after OTIF drops below 88%. Historical data shows early intervention at 90% prevents 60% of critical stock-outs.
+                                </div>
+                                <div class="insight-meta">
+                                    <span class="insight-source"> From Control Agent</span>
+                                    <span>Impact: High</span>
+                                </div>
+                            </div>
+
+                            <!-- Opportunity Insight -->
+                            <div class="insight-card opportunity" data-type="opportunity" data-insight-id="production-opportunity">
+                                <div class="insight-header">
+                                    <span class="insight-type opportunity">Opportunity</span>
+                                </div>
+                                <div class="insight-title">Untapped Production Efficiency Gains</div>
+                                <div class="insight-description">
+                                    Your focus has been 80% on inventory optimization. However, production efficiency improvements you implemented 3 months ago had 2.3x ROI.
+                                </div>
+                                <div class="insight-meta">
+                                    <span class="insight-source"> From Pattern Analysis</span>
+                                    <span>ROI: 2.3x</span>
+                                </div>
+                            </div>
+
+                            <!-- Learning Insight -->
+                            <div class="insight-card learning" data-type="learning" data-insight-id="safety-stock">
+                                <div class="insight-header">
+                                    <span class="insight-type learning">Learning</span>
+                                </div>
+                                <div class="insight-title">Optimal Safety Stock Sweet Spot Identified</div>
+                                <div class="insight-description">
+                                    Based on your 8 safety stock adjustments, optimal balance achieved at 2.0x StdDev. This reduces stock-outs to 2.1% while keeping holding costs 7% lower.
+                                </div>
+                                <div class="insight-meta">
+                                    <span class="insight-source"> From Simulation Agent</span>
+                                    <span>Verified: 8 trials</span>
+                                </div>
+                            </div>
+
+                            <!-- Risk Insight -->
+                            <div class="insight-card risk" data-type="risk" data-insight-id="cost-blind-spot">
+                                <div class="insight-header">
+                                    <span class="insight-type risk">Risk</span>
+                                </div>
+                                <div class="insight-title">Cost Optimization Blind Spot</div>
+                                <div class="insight-description">
+                                    You've created 23 tickets for service/delivery issues but only 2 for cost reduction. Cost per unit is 11% above target.
+                                </div>
+                                <div class="insight-meta">
+                                    <span class="insight-source"> From Control Agent</span>
+                                    <span>Priority: Medium</span>
+                                </div>
+                            </div>
+
+                            <!-- Opportunity Insight -->
+                            <div class="insight-card opportunity" data-type="opportunity" data-insight-id="warehouse-success">
+                                <div class="insight-header">
+                                    <span class="insight-type opportunity">Opportunity</span>
+                                </div>
+                                <div class="insight-title">Warehouse Efficiency Success Formula</div>
+                                <div class="insight-description">
+                                    Your warehouse utilization (92.1%) exceeds target by 4.6%. This success came from 3 specific actions you took. This formula can be applied to Plant C (74.8% efficiency).
+                                </div>
+                                <div class="insight-meta">
+                                    <span class="insight-source"> From Success Pattern</span>
+                                    <span>Transferable</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Decision Pattern Analysis -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            Your Decision Patterns
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="metric-row">
+                            <span class="metric-label">Planning Agent Interaction Frequency</span>
+                            <span class="metric-value">47 times (30 days)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 78%"></div>
+                        </div>
+
+                        <div class="metric-row">
+                            <span class="metric-label">Most Optimized KPI</span>
+                            <span class="metric-value">OTIF (14 times)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 92%"></div>
+                        </div>
+
+                        <div class="metric-row">
+                            <span class="metric-label">Average Decision Speed</span>
+                            <span class="metric-value">2.3 days (faster than peers)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 65%"></div>
+                        </div>
+
+                        <div class="metric-row">
+                            <span class="metric-label">Collaboration Rate</span>
+                            <span class="metric-value">68% (created 12 Slack threads)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 68%"></div>
+                        </div>
+
+                        <div class="metric-row">
+                            <span class="metric-label">Success Rate of Applied Recommendations</span>
+                            <span class="metric-value">82% (18 of 22 successful)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 82%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Timeline -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            Recent Learning Journey
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-date">Nov 1, 2025</div>
+                                <div class="timeline-title">Learned: Supplier Collaboration Impact</div>
+                                <div class="timeline-content">
+                                    After implementing supplier portal from Planning Agent recommendation (TKT-002), supplier OTD improved from 91.5% to 94.2% in 3 weeks. You closed ticket with "High Impact" rating. Key learning: Early supplier engagement reduces lead time by 18%.
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-date">Oct 28, 2025</div>
+                                <div class="timeline-title">Learned: Regional Demand Variability</div>
+                                <div class="timeline-content">
+                                    Simulation Agent scenario revealed: North America OTIF responds better to logistics optimization (+7.4%) vs Europe where inventory levels are key (-45.1% stock-out reduction). You've since applied regional strategies.
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-date">Oct 22, 2025</div>
+                                <div class="timeline-title">Learned: Cost-Service Trade-off Balance</div>
+                                <div class="timeline-content">
+                                    Selected Trajectory #3 (Optimization Score: 0.92) which balanced +10.2% OTIF improvement with only +23.8% logistics cost increase. You've demonstrated preference for high-impact, moderate-cost solutions.
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-date">Oct 15, 2025</div>
+                                <div class="timeline-title">Risk Identified: Overconfidence in Single Supplier</div>
+                                <div class="timeline-content">
+                                    Control Agent flagged geographic concentration risk (TKT-003). You initially dismissed this recommendation but later accepted after supply disruption. Learning: Consider risk warnings even when current performance seems stable.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommended Actions -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            Personalized Recommendations
+                            <span class="badge warning">Based on your patterns</span>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <ul class="action-list">
+                            <li class="action-item">
+                                <div class="action-info">
+                                    <div class="action-title">Set Proactive Supplier OTD Alert</div>
+                                    <div class="action-detail">Configure trigger at 92% instead of 88% based on your historical success rate</div>
+                                </div>
+                                <button class="action-btn" onclick="alert('Creating alert configuration...')">Configure</button>
+                            </li>
+
+                            <li class="action-item">
+                                <div class="action-info">
+                                    <div class="action-title">Review Cost Optimization Opportunities</div>
+                                    <div class="action-detail">You have 5 high-ROI cost reduction actions identified by Planning Agent</div>
+                                </div>
+                                <button class="action-btn" onclick="alert('Opening Planning Agent...')">Review</button>
+                            </li>
+
+                            <li class="action-item">
+                                <div class="action-info">
+                                    <div class="action-title">Apply Warehouse Success to Plant C</div>
+                                    <div class="action-detail">Transfer your proven 3-step efficiency formula (Est. +10% improvement)</div>
+                                </div>
+                                <button class="action-btn" onclick="alert('Creating implementation plan...')">Apply</button>
+                            </li>
+
+                            <li class="action-item">
+                                <div class="action-info">
+                                    <div class="action-title">Schedule Team Learning Session</div>
+                                    <div class="action-detail">Share your regional demand strategy insights with Procurement team</div>
+                                </div>
+                                <button class="action-btn" onclick="alert('Opening calendar...')">Schedule</button>
+                            </li>
+                        </ul>
+                </div>
+            </div>
+            </div>
+<div class="chat-panel">
+                    <div class="chat-header">
+                        <div class="chat-title">Improvement Coach</div>
+                        <div class="chat-subtitle">Continuous Improvement Assistant</div>
+                    </div>
+                    <div class="chat-messages" id="improvement-chat-messages">
+                        <div class="message assistant">
+                            <div class="message-bubble">I help capture learnings, manage risks, and identify opportunities. Ask me about best practices, lessons learned, or improvement initiatives.</div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <div class="input-group">
+                            <textarea class="chat-input-field" id="improvement-chat-input" placeholder="Ask about learnings, risks, or improvement opportunities..." onkeypress="handleImprovementChatKeyPress(event)"></textarea>
+                            <button class="send-btn" onclick="sendImprovementMessage()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- ========== NEWS INSIGHTS TAB ========== -->
+        <div class="tab-content" id="news-insights">
+            <div class="container">
+                <div class="main-panel">
+                    <div class="news-wrapper">
+                        <h2 class="news-title">Global Supply Chain and Market Intelligence</h2>
+                        <p class="news-subtitle">Correlating external events with internal KPI performance.</p>
+                        
+                        <!-- Filters Bar -->
+                        <div class="news-filters">
+                            <div class="filter-section">
+                            <label>Filter by Status:</label>
+                            <button class="filter-btn active" onclick="filterNewsByStatus('all')">All</button>
+                            <button class="filter-btn" onclick="filterNewsByStatus('unread')">Unread</button>
+                            <button class="filter-btn" onclick="filterNewsByStatus('read')">Read</button>
+                            <button class="filter-btn" onclick="filterNewsByStatus('saved')">Saved</button>
+                            
+
+                    <div class="filter-section">
+                      <label>Search News:</label>
+                      <input type="text" 
+                             id="newsSearchInput" 
+                             class="news-search-bar" 
+                             placeholder="Search by title, source, or keywords..." 
+                             onkeyup="searchNews(this.value)">
+                    </div></div>
+                            
+                            <div class="filter-section">
+                            <label>Sort by:</label>
+                            <select onchange="sortNews(this.value)">
+                                <option value="date-desc">Latest First</option>
+                                <option value="date-asc">Oldest First</option>
+                                <option value="relevance">Relevance</option>
+                            </select>
+                            </div>
+                            
+                            <div class="filter-section bulk-actions" style="display:none;" id="bulkActionsBar">
+                            <span id="selectedCount">0 selected</span>
+                            <button onclick="bulkMarkRead()" class="bulk-btn">Mark Read</button>
+                            <button onclick="bulkMarkUnread()" class="bulk-btn">Mark Unread</button>
+                            <button onclick="bulkSave()" class="bulk-btn">Save</button>
+                            <button onclick="bulkShare()" class="bulk-btn">Share to Slack</button>
+                            <button onclick="clearSelection()" class="bulk-btn cancel">Cancel</button>
+                            </div>
+                        </div>
+                        
+                        <!-- News Cards Container (Vertical Stack) -->
+                        <div class="news-cards-container">
+                            <div class="news-card" data-news-id="news-1">
+                            <!-- Checkbox for bulk selection -->
+                            <input type="checkbox" class="news-checkbox" onchange="updateBulkSelection()">
+                            
+                            <!-- Card Header -->
+                            <div class="news-card-header">
+                                <div class="news-meta">
+                                <span class="news-date">Nov 12, 2025</span>
+                                <span class="news-source">Reuters</span>
+                                <span class="news-relevance-score">89% Relevant</span>
+                                </div>
+                                <div class="news-actions">
+                                <button class="news-icon-btn read-btn" onclick="toggleReadStatus(event)" title="Mark as Read">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64"/><path d="M3.51 15A9 9 0 0 0 18.36 18.36"/>
+                                    </svg>
+                                </button>
+                                <button class="news-icon-btn save-btn" onclick="toggleSaveStatus(event)" title="Save Article">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/>
+                                    </svg>
+                                </button>
+                                <button class="news-icon-btn share-btn" onclick="shareToSlack(event)" title="Share to Slack">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                                    </svg>
+                                </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Card Body (Clickable) -->
+                            <div class="news-card-body" onclick="showNewsDetail(this)">
+                                <h3 class="news-item-title">Supply Chain Disruption in Southeast Asia</h3>
+                                <p class="news-snippet">Port congestion in Singapore has escalated to unprecedented levels, affecting 40% of container shipments...</p>
+                                
+                                <!-- Read Indicator -->
+                                <div class="news-read-indicator">
+                                <a href="#" class="read-more">Read Full →</a>
+                                </div>
+                            </div>
+                            
+                            <!-- Impact Tags -->
+                            <div class="news-impact-tags">
+                                <span class="impact-tag critical">Critical Impact</span>
+                                <span class="impact-tag affects">Affects: OTIF, Lead Time</span>
+                            </div>
+                            </div>
+                            
+                            <!-- More news cards follow same structure -->
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-panel">
+                    <div class="chat-header">
+                        <div class="chat-title">News Agent</div>
+                        <div class="chat-subtitle">External Event Impact Analysis</div>
+                    </div>
+                    <div class="chat-messages" id="news-chat-messages">
+                         <div class="message assistant">
+                            <div class="message-bubble">I monitor real-time global events. Click any news article on the left to see its potential impact on your KPIs and risk profile.</div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <div class="input-group">
+                            <textarea class="chat-input-field" id="news-chat-input" name="news-chat-input" placeholder="Ask about market risk or specific trends..." onkeypress="handleNewsChatKeyPress(event)"></textarea>
+                            <button class="send-btn" onclick="sendNewsChatMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== ALL MODALS (RESTORED) ========== -->
+    <div class="modal-backdrop" id="reviewModalBackdrop" onclick="closereviewModal()">
+        <div class="modal" id="reviewModal" onclick="event.stopPropagation()">
+            <h2>Confirm New Target Goals</h2>
+            <p>You are about to accept the optimized goals for the selected KPIs. This will update baseline targets for future reporting.</p>
+            <div class="modal-buttons">
+                <button class="cancel-btn" onclick="closereviewModal()">Cancel</button>
+                <button class="review-btn" onclick="confirmapply()">Confirm & Apply</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop" id="acceptModalBackdrop" onclick="closeAcceptModal()">
+        <div class="modal" id="acceptModal" onclick="event.stopPropagation()">
+            <h2>Recommendation Accepted</h2>
+            <p>Action has been logged. Corresponding ticket created in Control Agent.</p>
+            <div class="modal-buttons"><button class="review-btn" onclick="closeAcceptModal()">OK</button></div>
+        </div>
+    </div>
+    <div class="modal-backdrop" id="rejectModalBackdrop" onclick="closeRejectModal()">
+        <div class="modal" id="rejectModal" onclick="event.stopPropagation()">
+            <h2>Reject Recommendation</h2>
+            <p>Please provide a reason for rejecting this recommendation:</p>
+            <textarea id="rejectionReason" placeholder="Enter your reason for rejection..."></textarea>
+            <div class="modal-buttons">
+                <button class="cancel-btn" onclick="closeRejectModal()">Cancel</button>
+                <button class="review-btn" onclick="submitRejection()">Submit</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop" id="discussModalBackdrop" onclick="closeDiscussModal()">
+        <div class="modal" id="discussModal" onclick="event.stopPropagation()">
+            <h2>Start Discussion</h2>
+            <p>Do you want to open a discussion thread in Slack?</p>
+            <div class="modal-buttons">
+                <button class="cancel-btn" onclick="closeDiscussModal()">Cancel</button>
+                <button class="review-btn" onclick="confirmDiscuss()">Yes, Open Thread</button>
+            </div>
+        </div>
+    </div>
+    <!-- Tradeoff Impact Modal Backdrop -->
+    <div class="modal-backdrop" id="tradeoff-modal-backdrop" onclick="hideTradeoffImpactModal()"></div>
+
+    <!-- Tradeoff Impact Modal -->
+    <div class="modal tradeoff-impact-modal" id="tradeoff-impact-modal">
+        <div class="modal-header">
+            <h2>Optimization Tradeoff Impact</h2>
+            <button class="modal-close" onclick="hideTradeoffImpactModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p style="display:none;">Trajectory #<span id="selected-trajectory-id"></span></p>
+            <div id="impact-breakdown"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="cancel-btn" onclick="hideTradeoffImpactModal()">Cancel</button>
+            <button class="review-btn" onclick="applySelectedOptimization()">Apply Optimized Targets</button>
+        </div>
+    </div>
+    <!-- Simulation Rejection Modal -->
+    <div class="modal-backdrop" id="sim-modal-backdrop" onclick="simCloseModal()">
+        <div class="modal" id="sim-rejection-modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Recommendation Feedback</h3>
+                <button class="modal-close" id="sim-modal-close" onclick="simCloseModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Why are you rejecting this simulation recommendation?</p>
+                <textarea class="form-control" id="sim-rejection-reason" placeholder="Please provide your feedback..." rows="4"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--secondary cancel-btn" id="sim-cancel-rejection" onclick="simCloseModal()">Cancel</button>
+                <button class="btn btn--primary review-btn" id="sim-confirm-rejection" onclick="simConfirmRejection()">Submit Feedback</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal from improvement_Agent.html -->
+    <div class="detail-view" id="detailView">
+        <div class="detail-content">
+            <div class="detail-header">
+                <div>
+                    <span class="insight-type" id="detailType">Learning</span>
+                    <h2 style="margin-top: 12px;" id="detailTitle">Insight Title</h2>
+                </div>
+                <button class="detail-close" onclick="closeDetailView()">✕</button>
+            </div>
+            
+            <div class="detail-body">
+                <div class="detail-section">
+                    <h3>Overview</h3>
+                    <p id="detailDescription">Detailed description will appear here.</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Key Metrics</h3>
+                    <div class="detail-stats" id="detailStats">
+                        <!-- Stats populated dynamically -->
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Analysis</h3>
+                    <p id="detailAnalysis">Deep analysis content.</p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Related Actions</h3>
+                    <ul class="related-items" id="detailRelated">
+                        <!-- Related items populated dynamically -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="detail-actions">
+                <button class="btn-secondary-detail" onclick="closeDetailView()">Close</button>
+                <button class="btn-primary-detail" onclick="takeAction()">Take Action</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip for Simulation -->
+    <div id="sim-tooltip" style="position: fixed; display: none; background: rgba(0,0,0,0.8); color: white; padding: 8px 12px; border-radius: 6px; z-index: 3000; pointer-events: none; transition: opacity 0.2s; font-size: 0.85rem;">
+        <div class="tooltip-title" id="sim-tooltip-title" style="color: var(--primary-color, #2DB2AA); border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 4px; margin-bottom: 4px;">Impacts</div>
+        <ul id="sim-tooltip-kpis" style="list-style: none; padding-left: 0; margin: 0;"></ul>
+    </div>
+    
+    <script src="script.js" defer></script>
+</body>
+</html>
