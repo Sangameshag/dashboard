@@ -4864,3 +4864,21 @@ function shareTicket(ticketId) {
     // Refresh the ticket detail view
     openCtrlDetail(ticketId);
 }
+
+// ========== NOTIFICATION DROPDOWN ==========
+function toggleNotificationDropdown() {
+    const dropdown = document.getElementById('notificationDropdown');
+    dropdown.classList.toggle('active');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('notificationDropdown');
+    const icon = document.querySelector('.notification-icon');
+    
+    if (dropdown && dropdown.classList.contains('active') && 
+        !dropdown.contains(event.target) && 
+        !icon.contains(event.target)) {
+        dropdown.classList.remove('active');
+    }
+});
