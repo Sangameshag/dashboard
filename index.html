@@ -84,122 +84,187 @@
     <div class="main-container">
         <!-- ========== SUMMARY TAB ========== -->
         <div class="tab-content active" id="summary">
-            <div class="container">
-                <div class="main-panel">
-                    <!-- Hero Section -->
-                    <div class="summary-hero">
-                        <div class="welcome-text">Welcome back, John</div>
-                        <p class="last-update">Last update: 10/30/2025, 1:00 PM EDT</p>
-                        <div class="hero-metrics">
-                            <div class="hero-metric">
-                                <div class="metric-label">Enterprise Health</div>
-                                <div class="metric-value value-critical">Critical</div>
-                                <div class="metric-trend trend-negative">▼ 3.2% vs last week</div>
+            <div class="sub-nav-tabs">
+                <div class="sub-tabs-container">
+                    <button class="tab-item sub-tab-item active" onclick="switchSummarySubTab('summary-dashboard', this)">Dashboard</button>
+                    <button class="tab-item sub-tab-item" onclick="switchSummarySubTab('summary-yearly', this)">Yearly</button>
+                    <button class="tab-item sub-tab-item" onclick="switchSummarySubTab('summary-quarterly', this)">Quarterly</button>
+                    <button class="tab-item sub-tab-item" onclick="switchSummarySubTab('summary-monthly', this)">Monthly</button>
+                    <button class="tab-item sub-tab-item" onclick="switchSummarySubTab('summary-weekly', this)">Weekly</button>
+                </div>
+            </div>
+
+            <!-- Dashboard Sub-Tab (Original Content) -->
+            <div id="summary-dashboard" class="sub-tab-content active" style="display: flex;">
+                <div class="container">
+                    <div class="main-panel">
+                        <!-- Hero Section -->
+                        <div class="summary-hero">
+                            <div class="welcome-text">Welcome back, John</div>
+                            <p class="last-update">Last update: 10/30/2025, 1:00 PM EDT</p>
+                            <div class="hero-metrics">
+                                <div class="hero-metric">
+                                    <div class="metric-label">Enterprise Health</div>
+                                    <div class="metric-value value-critical">Critical</div>
+                                    <div class="metric-trend trend-negative">▼ 3.2% vs last week</div>
+                                </div>
+                                <div class="hero-metric">
+                                    <div class="metric-label">OTIF (On-Time In-Full)</div>
+                                    <div class="metric-value value-warning">87.2%</div>
+                                    <div class="metric-trend trend-negative">Target: 95%</div>
+                                </div>
+                                <div class="hero-metric">
+                                    <div class="metric-label">Stock Out Rate</div>
+                                    <div class="metric-value value-critical">4.8%</div>
+                                    <div class="metric-trend trend-negative">Target: &lt; 2%</div>
+                                </div>
+                                <div class="hero-metric">
+                                    <div class="metric-label">Cost Per Unit</div>
+                                    <div class="metric-value value-warning">$24.50</div>
+                                    <div class="metric-trend trend-negative">Target: $22.00</div>
+                                </div>
                             </div>
-                            <div class="hero-metric">
-                                <div class="metric-label">OTIF (On-Time In-Full)</div>
-                                <div class="metric-value value-warning">87.2%</div>
-                                <div class="metric-trend trend-negative">Target: 95%</div>
+                        </div>
+
+                        <!-- Critical Issues Section -->
+                        <div class="summary-section">
+                            <div class="section-header expanded" id="critical-issues-section" onclick="toggleSection('critical-issues-section')">
+                                <div class="section-title"><span class="priority-badge badge-critical">Critical Issues (4)</span></div>
+                                <div class="expand-icon">▲</div>
                             </div>
-                            <div class="hero-metric">
-                                <div class="metric-label">Stock Out Rate</div>
-                                <div class="metric-value value-critical">4.8%</div>
-                                <div class="metric-trend trend-negative">Target: &lt; 2%</div>
+                            <div class="section-content expanded" id="critical-issues-content">
+                                <div class="insight-grid">
+                                    <div class="insight-card critical" onclick="explainSummaryItem('stockout-crisis', this)">
+                                        <div class="insight-header">
+                                            <span class="insight-title">Stock Out Rate</span>
+                                            <span class="insight-value value-critical">4.8%</span>
+                                        </div>
+                                        <div class="insight-description">Rate is 140% above 2% target.</div>
+                                        <div class="insight-impact">Est. $280K/month lost sales.</div>
+                                    </div>
+                                    <div class="insight-card warning" onclick="explainSummaryItem('otif-decline', this)">
+                                        <div class="insight-header">
+                                            <span class="insight-title">OTIF Delivery</span>
+                                            <span class="insight-value value-warning">87.2%</span>
+                                        </div>
+                                        <div class="insight-description">Trend declining, 7.8% below 95% target.</div>
+                                        <div class="insight-impact">3 major customer contracts at risk.</div>
+                                    </div>
+                                    <div class="insight-card warning" onclick="explainSummaryItem('cost-overrun', this)">
+                                        <div class="insight-header">
+                                            <span class="insight-title">Cost Per Unit</span>
+                                            <span class="insight-value value-warning">$24.50</span>
+                                        </div>
+                                        <div class="insight-description">11% over $22 target, eroding margin.</div>
+                                        <div class="insight-impact">3.2% gross margin compression.</div>
+                                    </div>
+                                    <div class="insight-card warning" onclick="explainSummaryItem('lead-time-delay', this)">
+                                        <div class="insight-header">
+                                            <span class="insight-title">Lead Time</span>
+                                            <span class="insight-value value-warning">12.3 Days</span>
+                                        </div>
+                                        <div class="insight-description">54% above 8-day target, causes stockouts.</div>
+                                        <div class="insight-impact">Increased expedited shipping costs.</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="hero-metric">
-                                <div class="metric-label">Cost Per Unit</div>
-                                <div class="metric-value value-warning">$24.50</div>
-                                <div class="metric-trend trend-negative">Target: $22.00</div>
+                        </div>
+
+                        <!-- Opportunities Section -->
+                        <div class="summary-section">
+                            <div class="section-header" id="opportunities-section" onclick="toggleSection('opportunities-section')">
+                                <div class="section-title"><span class="priority-badge badge-success">Key Opportunities (4)</span></div>
+                                <div class="expand-icon">▼</div>
+                            </div>
+                            <div class="section-content" id="opportunities-content">
+                                <div class="insight-grid">
+                                    <div class="insight-card success" onclick="explainSummaryItem('production-efficiency', this)">
+                                        <div class="insight-title">Production Efficiency</div>
+                                        <div class="insight-description">At 78.9%, trend is positive (+2.3%).</div>
+                                    </div>
+                                    <div class="insight-card success" onclick="explainSummaryItem('warehouse-optimization', this)">
+                                        <div class="insight-title">Warehouse Utilization</div>
+                                        <div class="insight-description">92.1% (vs 88% target), provides capacity buffer.</div>
+                                    </div>
+                                    <div class="insight-card info" onclick="explainSummaryItem('market-recovery', this)">
+                                        <div class="insight-title">Market Recovery</div>
+                                        <div class="insight-description">Tech & Energy sectors show +8% growth.</div>
+                                    </div>
+                                    <div class="insight-card info" onclick="explainSummaryItem('supplier-performance', this)">
+                                        <div class="insight-title">Supplier OTD</div>
+                                        <div class="insight-description">Improving (+1.2%), new vendor program working.</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Critical Issues Section -->
-                    <div class="summary-section">
-                        <div class="section-header expanded" id="critical-issues-section" onclick="toggleSection('critical-issues-section')">
-                            <div class="section-title"><span class="priority-badge badge-critical">Critical Issues (4)</span></div>
-                            <div class="expand-icon">▲</div>
+                    <div class="chat-panel">
+                        <div class="chat-header">
+                            <div class="chat-title">Enterprise Copilot</div>
+                            <div class="chat-subtitle">Summary & Triage</div>
                         </div>
-                        <div class="section-content expanded" id="critical-issues-content">
-                            <div class="insight-grid">
-                                <div class="insight-card critical" onclick="explainSummaryItem('stockout-crisis', this)">
-                                    <div class="insight-header">
-                                        <span class="insight-title">Stock Out Rate</span>
-                                        <span class="insight-value value-critical">4.8%</span>
-                                    </div>
-                                    <div class="insight-description">Rate is 140% above 2% target.</div>
-                                    <div class="insight-impact">Est. $280K/month lost sales.</div>
-                                </div>
-                                <div class="insight-card warning" onclick="explainSummaryItem('otif-decline', this)">
-                                    <div class="insight-header">
-                                        <span class="insight-title">OTIF Delivery</span>
-                                        <span class="insight-value value-warning">87.2%</span>
-                                    </div>
-                                    <div class="insight-description">Trend declining, 7.8% below 95% target.</div>
-                                    <div class="insight-impact">3 major customer contracts at risk.</div>
-                                </div>
-                                <div class="insight-card warning" onclick="explainSummaryItem('cost-overrun', this)">
-                                    <div class="insight-header">
-                                        <span class="insight-title">Cost Per Unit</span>
-                                        <span class="insight-value value-warning">$24.50</span>
-                                    </div>
-                                    <div class="insight-description">11% over $22 target, eroding margin.</div>
-                                    <div class="insight-impact">3.2% gross margin compression.</div>
-                                </div>
-                                <div class="insight-card warning" onclick="explainSummaryItem('lead-time-delay', this)">
-                                    <div class="insight-header">
-                                        <span class="insight-title">Lead Time</span>
-                                        <span class="insight-value value-warning">12.3 Days</span>
-                                    </div>
-                                    <div class="insight-description">54% above 8-day target, causes stockouts.</div>
-                                    <div class="insight-impact">Increased expedited shipping costs.</div>
-                                </div>
+                        <div class="chat-messages" id="summary-chat-messages">
+                            <div class="message assistant">
+                                <div class="message-bubble">Welcome, John. Your Supply Chain Health is **Critical**. The primary issues are a **4.8% Stock Out Rate** and **87.2% OTIF**. Click an issue on the left or ask me for details.</div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Opportunities Section -->
-                    <div class="summary-section">
-                        <div class="section-header" id="opportunities-section" onclick="toggleSection('opportunities-section')">
-                            <div class="section-title"><span class="priority-badge badge-success">Key Opportunities (4)</span></div>
-                            <div class="expand-icon">▼</div>
-                        </div>
-                        <div class="section-content" id="opportunities-content">
-                            <div class="insight-grid">
-                                <div class="insight-card success" onclick="explainSummaryItem('production-efficiency', this)">
-                                    <div class="insight-title">Production Efficiency</div>
-                                    <div class="insight-description">At 78.9%, trend is positive (+2.3%).</div>
-                                </div>
-                                <div class="insight-card success" onclick="explainSummaryItem('warehouse-optimization', this)">
-                                    <div class="insight-title">Warehouse Utilization</div>
-                                    <div class="insight-description">92.1% (vs 88% target), provides capacity buffer.</div>
-                                </div>
-                                <div class="insight-card info" onclick="explainSummaryItem('market-recovery', this)">
-                                    <div class="insight-title">Market Recovery</div>
-                                    <div class="insight-description">Tech & Energy sectors show +8% growth.</div>
-                                </div>
-                                <div class="insight-card info" onclick="explainSummaryItem('supplier-performance', this)">
-                                    <div class="insight-title">Supplier OTD</div>
-                                    <div class="insight-description">Improving (+1.2%), new vendor program working.</div>
-                                </div>
+                        <div class="chat-input">
+                            <div class="input-group">
+                                <textarea class="chat-input-field" id="summary-chat-input" name="summary-chat-input" placeholder="Ask about critical issues..." onkeypress="handleSummaryChatKeyPress(event)"></textarea>
+                                <button class="send-btn" onclick="sendSummaryChatMessage()">Send</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="chat-panel">
-                    <div class="chat-header">
-                        <div class="chat-title">Enterprise Copilot</div>
-                        <div class="chat-subtitle">Summary & Triage</div>
-                    </div>
-                    <div class="chat-messages" id="summary-chat-messages">
-                        <div class="message assistant">
-                            <div class="message-bubble">Welcome, John. Your Supply Chain Health is **Critical**. The primary issues are a **4.8% Stock Out Rate** and **87.2% OTIF**. Click an issue on the left or ask me for details.</div>
+            </div>
+
+            <!-- Yearly Sub-Tab -->
+            <div id="summary-yearly" class="sub-tab-content" style="display: none;">
+                <div class="container">
+                    <div class="main-panel">
+                        <div class="summary-hero">
+                             <div class="welcome-text">Yearly Summary</div>
+                             <p class="last-update">Description for Yearly Data (Dummy)</p>
+                             <button class="select-all-btn" onclick="switchSummarySubTab('summary-dashboard', document.querySelector('#summary .sub-tab-item[onclick*=\'summary-dashboard\']'))">Back to Dashboard</button>
                         </div>
                     </div>
-                    <div class="chat-input">
-                        <div class="input-group">
-                            <textarea class="chat-input-field" id="summary-chat-input" name="summary-chat-input" placeholder="Ask about critical issues..." onkeypress="handleSummaryChatKeyPress(event)"></textarea>
-                            <button class="send-btn" onclick="sendSummaryChatMessage()">Send</button>
+                </div>
+            </div>
+
+            <!-- Quarterly Sub-Tab -->
+            <div id="summary-quarterly" class="sub-tab-content" style="display: none;">
+                <div class="container">
+                    <div class="main-panel">
+                         <div class="summary-hero">
+                             <div class="welcome-text">Quarterly Summary</div>
+                             <p class="last-update">Description for Quarterly Data (Dummy)</p>
+                             <button class="select-all-btn" onclick="switchSummarySubTab('summary-dashboard', document.querySelector('#summary .sub-tab-item[onclick*=\'summary-dashboard\']'))">Back to Dashboard</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Sub-Tab -->
+            <div id="summary-monthly" class="sub-tab-content" style="display: none;">
+                <div class="container">
+                    <div class="main-panel">
+                        <div class="summary-hero">
+                             <div class="welcome-text">Monthly Summary</div>
+                             <p class="last-update">Description for Monthly Data (Dummy)</p>
+                             <button class="select-all-btn" onclick="switchSummarySubTab('summary-dashboard', document.querySelector('#summary .sub-tab-item[onclick*=\'summary-dashboard\']'))">Back to Dashboard</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weekly Sub-Tab -->
+            <div id="summary-weekly" class="sub-tab-content" style="display: none;">
+                <div class="container">
+                    <div class="main-panel">
+                        <div class="summary-hero">
+                             <div class="welcome-text">Weekly Summary</div>
+                             <p class="last-update">Description for Weekly Data (Dummy)</p>
+                             <button class="select-all-btn" onclick="switchSummarySubTab('summary-dashboard', document.querySelector('#summary .sub-tab-item[onclick*=\'summary-dashboard\']'))">Back to Dashboard</button>
                         </div>
                     </div>
                 </div>

@@ -253,6 +253,15 @@ function switchTab(tabName) {
             switchSubTab(firstSubTabContentId, firstSubTabButton); // Pass the button element
          }
     }
+
+    // Handle Summary first sub-tab activation
+    if (tabName === 'summary') {
+        const firstSubTabButton = document.querySelector('#summary .sub-tab-item');
+         if (firstSubTabButton) {
+            const firstSubTabContentId = firstSubTabButton.getAttribute('onclick').match(/'([^']+)'/)[1];
+            switchSummarySubTab(firstSubTabContentId, firstSubTabButton);
+         }
+    }
 }
 
 
@@ -290,6 +299,32 @@ function switchCtrlSubTab(subTabId) {
     }
 }
 
+
+
+function switchSummarySubTab(subTabId, button) {
+    // Hide all sub-tab contents within #summary
+    document.querySelectorAll('#summary .sub-tab-content').forEach(content => {
+        content.classList.remove('active');
+        content.style.display = 'none';
+    });
+
+    // Remove active class from all sub-tab items within #summary
+    document.querySelectorAll('#summary .sub-tab-item').forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    // Show selected sub-tab content
+    const selectedSubTab = document.getElementById(subTabId);
+    if (selectedSubTab) {
+        selectedSubTab.classList.add('active');
+        selectedSubTab.style.display = 'flex';
+    }
+
+    // Activate the clicked sub-tab button
+    if (button) {
+        button.classList.add('active');
+    }
+}
 
 function switchSubTab(subTabName, button) {
     // Hide all sub-tab contents
