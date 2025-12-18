@@ -435,6 +435,30 @@ function explainSummaryItem(itemType, element) {
                 <b>Risk:</b> <br> Geographic concentration in Asia remains a vulnerability.<br>
                 <b>Action:</b> <br> Focus supplier development efforts on bottom quartile. Continue diversification strategy. Implement stricter performance clauses in contracts for critical suppliers. Prioritize TKT-002.`;
             break;
+        case 'action-expedite':
+             explanation = `<b>Expedite Raw Material Order (Urgent):</b><br>
+                <b>Context:</b> <br> Line 3 production at risk due to raw material shortage.<br>
+                <b>Impact:</b> <br> Potential 4-hour stoppage affecting 20% of daily output.<br>
+                <b>Action:</b> <br> Contact supplier for expedited air freight. Approval pre-authorized for up to $2k.`;
+            break;
+        case 'action-schedule':
+             explanation = `<b>Review Shift Schedule (Moderate):</b><br>
+                <b>Context:</b> <br> Weekend shift is currently understaffed by 2 operators.<br>
+                <b>Impact:</b> <br> Risk of overtime costs exceeding budget by 15%.<br>
+                <b>Action:</b> <br> Request voluntary overtime from weekday crew or authorize agency staff.`;
+            break;
+        case 'action-maintenance':
+             explanation = `<b>Approve Maintenance Request (Moderate):</b><br>
+                <b>Context:</b> <br> Forklift #4 requires hydraulic system repair.<br>
+                <b>Impact:</b> <br> Warehouse picking efficiency reduced by 5% until fixed.<br>
+                <b>Action:</b> <br> Approve work order WO-492. est cost $450. Repair scheduled for tonight.`;
+             break;
+        case 'action-guidelines':
+             explanation = `<b>Update Safety Guidelines (Low):</b><br>
+                 <b>Context:</b> <br> Q4 safety protocols require quarterly review and sign-off.<br>
+                 <b>Impact:</b> <br> Mandatory compliance requirement for ISO certification.<br>
+                 <b>Action:</b> <br> Assign to Safety Officer. Deadline: End of month.`;
+             break;
         default:
             explanation = 'Analysis for this item is not yet configured.';
     }

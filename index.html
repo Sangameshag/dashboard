@@ -126,7 +126,51 @@
                             </div>
                         </div>
 
-                        <!-- Critical Issues Section -->
+                    <!-- Priority Actions Section -->
+                    <div class="summary-section">
+                        <div class="section-header expanded" id="priority-actions-section" onclick="toggleSection('priority-actions-section')">
+                            <div class="section-title"><span class="priority-badge badge-critical">Priority Actions (4)</span></div>
+                            <div class="expand-icon">▲</div>
+                        </div>
+                        <div class="section-content expanded" id="priority-actions-content">
+                            <div class="insight-grid">
+                                <div class="insight-card critical" onclick="explainSummaryItem('action-expedite', this)">
+                                    <div class="insight-header">
+                                        <span class="insight-title">Expedite Material Order</span>
+                                        <span class="insight-value value-critical">High Priority</span>
+                                    </div>
+                                    <div class="insight-description"><strong>Description: </strong>Raw material for Line 3 critical.</div>
+                                    <div class="insight-impact"><strong>Impact: </strong>Potential stoppage in 4 hrs.</div>
+                                </div>
+                                <div class="insight-card warning" onclick="explainSummaryItem('action-schedule', this)">
+                                    <div class="insight-header">
+                                        <span class="insight-title">Review Shift Schedule</span>
+                                        <span class="insight-value value-warning">Moderate</span>
+                                    </div>
+                                    <div class="insight-description"><strong>Description: </strong>Weekend shift understaffed.</div>
+                                    <div class="insight-impact"><strong>Impact: </strong>Risk of overtime costs.</div>
+                                </div>
+                                <div class="insight-card warning" onclick="explainSummaryItem('action-maintenance', this)">
+                                    <div class="insight-header">
+                                        <span class="insight-title">Approve Maintenance</span>
+                                        <span class="insight-value value-warning">Moderate</span>
+                                    </div>
+                                    <div class="insight-description"><strong>Description: </strong>Forklift #4 repair pending.</div>
+                                    <div class="insight-impact"><strong>Impact: </strong>Warehouse efficiency drop.</div>
+                                </div>
+                                <div class="insight-card info" onclick="explainSummaryItem('action-guidelines', this)">
+                                    <div class="insight-header">
+                                        <span class="insight-title">Update Safety Docs</span>
+                                        <span class="insight-value value-info">Low Priority</span>
+                                    </div>
+                                    <div class="insight-description"><strong>Description: </strong>Q4 protocols review needed.</div>
+                                    <div class="insight-impact"><strong>Impact: </strong>Compliance requirement.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Critical Issues Section -->
                         <div class="summary-section">
                             <div class="section-header expanded" id="critical-issues-section" onclick="toggleSection('critical-issues-section')">
                                 <div class="section-title"><span class="priority-badge badge-critical">Critical Issues (4)</span></div>
