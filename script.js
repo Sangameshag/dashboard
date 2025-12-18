@@ -389,51 +389,51 @@ function explainSummaryItem(itemType, element) {
     switch(itemType) {
          case 'stockout-crisis':
             explanation = `<b>Stock Out Rate Crisis (4.8% vs 2% Target):</b><br>
-                • <b>Root Cause:</b> Primarily driven by inaccurate demand forecasts (82.7% vs 90% target) and unreliable supplier deliveries (91.5% OTD).<br>
-                • <b>Impact:</b> Estimated $280K/month in lost sales. Significant negative impact on OTIF (87.2%). Customer satisfaction declining.<br>
-                • <b>Action:</b> Prioritize TKT-001. Implement emergency buffer stock for critical items. Expedite review of forecasting models and supplier performance agreements.`;
+                <b>Root Cause:</b> <br> Primarily driven by inaccurate demand forecasts (82.7% vs 90% target) and unreliable supplier deliveries (91.5% OTD).<br>
+                <b>Impact:</b> <br> Estimated $280K/month in lost sales. Significant negative impact on OTIF (87.2%). Customer satisfaction declining.<br>
+                <b>Action:</b> <br> Prioritize TKT-001. Implement emergency buffer stock for critical items. Expedite review of forecasting models and supplier performance agreements.`;
             break;
         case 'otif-decline':
             explanation = `<b>OTIF Delivery Decline (87.2% vs 95% Target):</b><br>
-                • <b>Root Cause:</b> Combination of high stock-out rates (4.8%) and extended lead times (12.3 days). Logistics bottlenecks also contribute.<br>
-                • <b>Impact:</b> Risk to customer retention - 3 major contracts under review. Increased expedited shipping costs ($45K/month).<br>
-                • <b>Action:</b> Address root causes via TKT-001 (Stockouts) and TKT-003 (Lead Time). Initiate proactive communication with key customers regarding recovery plan.`;
+                <b>Root Cause:</b> <br> Combination of high stock-out rates (4.8%) and extended lead times (12.3 days). Logistics bottlenecks also contribute.<br>
+                <b>Impact:</b> <br> Risk to customer retention - 3 major contracts under review. Increased expedited shipping costs ($45K/month).<br>
+                <b>Action:</b> <br> Address root causes via TKT-001 (Stockouts) and TKT-003 (Lead Time). Initiate proactive communication with key customers regarding recovery plan.`;
             break;
         case 'cost-overrun':
             explanation = `<b>Cost Per Unit Overrun ($24.50 vs $22 Target):</b><br>
-                • <b>Root Cause:</b> Driven by raw material inflation (+8% vs budget), increased labor costs, and energy price volatility. Production inefficiencies (78.9% efficiency) also play a role.<br>
-                • <b>Impact:</b> 3.2% compression in gross margin. Reduced price competitiveness.<br>
-                • <b>Action:</b> Prioritize TKT-004 (Cost Reduction). Accelerate lean manufacturing initiatives. Renegotiate with material suppliers or explore alternatives. Evaluate automation opportunities.`;
+                <b>Root Cause:</b> <br> Driven by raw material inflation (+8% vs budget), increased labor costs, and energy price volatility. Production inefficiencies (78.9% efficiency) also play a role.<br>
+                <b>Impact:</b> <br> 3.2% compression in gross margin. Reduced price competitiveness.<br>
+                <b>Action:</b> <br> Prioritize TKT-004 (Cost Reduction). Accelerate lean manufacturing initiatives. Renegotiate with material suppliers or explore alternatives. Evaluate automation opportunities.`;
             break;
         case 'lead-time-delay':
             explanation = `<b>Extended Lead Times (12.3 days vs 8 Target):</b><br>
-                • <b>Root Cause:</b> Supplier processing delays, international shipping complexities (customs, documentation), and internal quality inspection times. Supplier OTD (91.5%) is a major factor.<br>
-                • <b>Impact:</b> Slows time-to-market. Increases need for expedited shipping ($45K/month). Contributes to stock-outs.<br>
-                • <b>Action:</b> Prioritize TKT-003. Implement supplier collaboration platform for better visibility. Explore regional inventory hubs. Streamline internal order processing and inspection.`;
+                <b>Root Cause:</b> <br> Supplier processing delays, international shipping complexities (customs, documentation), and internal quality inspection times. Supplier OTD (91.5%) is a major factor.<br>
+                <b>Impact:</b> <br> Slows time-to-market. Increases need for expedited shipping ($45K/month). Contributes to stock-outs.<br>
+                <b>Action:</b> <br> Prioritize TKT-003. Implement supplier collaboration platform for better visibility. Explore regional inventory hubs. Streamline internal order processing and inspection.`;
             break;
         case 'production-efficiency':
             explanation = `<b>Production Efficiency Gain (78.9%, Trend +2.3%):</b><br>
-                • <b>Status:</b> Approaching 85% target due to recent equipment modernization and lean initiatives.<br>
-                • <b>Opportunity:</b> Reaching the 85% target could yield ~$180K/month in savings.<br>
-                • <b>Action:</b> Identify and replicate best practices from top-performing plants (Plant B: 82.6%, Plant D: 86.8%). Continue targeted automation investments.`;
+                <b>Status:</b> <br> Approaching 85% target due to recent equipment modernization and lean initiatives.<br>
+                <b>Opportunity:</b> <br> Reaching the 85% target could yield ~$180K/month in savings.<br>
+                <b>Action:</b> <br> Identify and replicate best practices from top-performing plants (Plant B: 82.6%, Plant D: 86.8%). Continue targeted automation investments.`;
             break;
         case 'warehouse-optimization':
             explanation = `<b>Warehouse Capacity Utilization (92.1% vs 88% Target):</b><br>
-                • <b>Status:</b> Excellent performance driven by automation and optimized workflows.<br>
-                • <b>Opportunity:</b> Current efficiency provides capacity buffer for ~15% volume growth without major investment. Supports readiness for Q4 demand surge.<br>
-                • <b>Action:</b> Document and standardize successful processes. Explore application to other facilities. Monitor for potential over-utilization risks.`;
+                <b>Status:</b> <br> Excellent performance driven by automation and optimized workflows.<br>
+                <b>Opportunity:</b> <br> Current efficiency provides capacity buffer for ~15% volume growth without major investment. Supports readiness for Q4 demand surge.<br>
+                <b>Action:</b> <br> Document and standardize successful processes. Explore application to other facilities. Monitor for potential over-utilization risks.`;
             break;
         case 'market-recovery':
             explanation = `<b>Market Recovery Trends (Tech/Energy +8%):</b><br>
-                • <b>Status:</b> Positive market signals with strong Q4 demand forecast (+12-15%).<br>
-                • <b>Opportunity:</b> Significant potential to gain market share if operational challenges (OTIF, Cost) are addressed.<br>
-                • <b>Action:</b> Align production & inventory planning with forecast. Ensure supplier capacity. Marketing/Sales to prepare aggressive Q4 campaigns.`;
+                <b>Status:</b> <br> Positive market signals with strong Q4 demand forecast (+12-15%).<br>
+                <b>Opportunity:</b> <br> Significant potential to gain market share if operational challenges (OTIF, Cost) are addressed.<br>
+                <b>Action:</b> <br> Align production & inventory planning with forecast. Ensure supplier capacity. Marketing/Sales to prepare aggressive Q4 campaigns.`;
             break;
         case 'supplier-performance':
              explanation = `<b>Supplier OTD Improvement (91.5%, Trend +1.2%):</b><br>
-                • <b>Status:</b> Performance improving due to new vendor program, but still below 98% target. Bottom quartile suppliers (87% OTD) are dragging down the average.<br>
-                • <b>Risk:</b> Geographic concentration in Asia remains a vulnerability.<br>
-                • <b>Action:</b> Focus supplier development efforts on bottom quartile. Continue diversification strategy. Implement stricter performance clauses in contracts for critical suppliers. Prioritize TKT-002.`;
+                <b>Status:</b> <br> Performance improving due to new vendor program, but still below 98% target. Bottom quartile suppliers (87% OTD) are dragging down the average.<br>
+                <b>Risk:</b> <br> Geographic concentration in Asia remains a vulnerability.<br>
+                <b>Action:</b> <br> Focus supplier development efforts on bottom quartile. Continue diversification strategy. Implement stricter performance clauses in contracts for critical suppliers. Prioritize TKT-002.`;
             break;
         default:
             explanation = 'Analysis for this item is not yet configured.';
