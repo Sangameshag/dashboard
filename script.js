@@ -223,6 +223,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Set initial expanded section
      expandSection('critical-issues-section');
+
+     // Render initial summary data (Yearly)
+     renderSummaryDataForTimeframe('yearly');
 });
 
 // ========== TAB SWITCHING ==========
@@ -301,6 +304,943 @@ function switchCtrlSubTab(subTabId) {
 
 
 
+// Global variables to store fetched data
+// Inlined Data from Critical_Issues.json
+const criticalIssuesData = {
+  "stock-out-rate": {
+    "id": "stock-out-rate",
+    "title": "Stock Out Rate",
+    "category": "critical",
+    "kpi": "Stock Out Rate",
+    "timeframes": {
+      "annual": {
+        "current": "5.1%",
+        "target": "2.0%",
+        "variance": "+155%",
+        "trend": "+0.8% YoY",
+        "trendDirection": "negative",
+        "description": "Annual stock-out rate 155% above target. Customer churn risk elevated by 15% year-over-year.",
+        "impact": "$3.4M annual lost sales; customer churn risk increased 15%",
+        "impactSeverity": "critical",
+        "drivers": {
+          "horizontal": [
+            "Forecast Accuracy: 81.2% vs 90% target - Demand Planning underperforming by 8.8%",
+            "Supply Chain Lead Time: 12.8 days vs 8 target - Procurement delays across categories",
+            "Inventory Management: Safety stock models misaligned with seasonality patterns"
+          ],
+          "vertical": [
+            "North America Region: 5.9% stock-out rate, highest among all regions",
+            "Distribution Centers: Inventory positioning suboptimal across 8 warehouses",
+            "Electronics Category: High variability SKUs showing 6.8% stock-outs"
+          ]
+        },
+        "actions": [
+          "Implement advanced demand sensing algorithms with ML forecasting",
+          "Accelerate supplier diversification program to reduce lead time by 30%",
+          "Redesign safety stock models with demand volatility segmentation"
+        ]
+      },
+      "quarterly": {
+        "current": "5.3%",
+        "target": "2.0%",
+        "variance": "+165%",
+        "trend": "+1.2% vs Q3",
+        "trendDirection": "negative",
+        "description": "Q4 stock-out rate deteriorating. Q4 revenue target at significant risk.",
+        "impact": "$920K quarterly lost sales; Q4 revenue target at risk",
+        "impactSeverity": "critical",
+        "drivers": {
+          "horizontal": [
+            "Q4 Demand Spike: Holiday season demand exceeded forecast by 18%",
+            "Supplier Constraints: 3 key suppliers missed delivery commitments in Q4",
+            "Inventory Turns: Accelerated 2.3x causing stockout vulnerabilities"
+          ],
+          "vertical": [
+            "East Coast DCs: Stock-outs at 6.1% due to port congestion delays",
+            "Consumer Electronics: Q4 demand surge caused 7.2% stock-out rate",
+            "E-commerce Channel: Fulfillment challenges drove 5.8% stock-outs"
+          ]
+        },
+        "actions": [
+          "Emergency inventory rebalancing across distribution network",
+          "Activate backup suppliers for top 50 high-velocity SKUs",
+          "Implement dynamic allocation rules for channel prioritization"
+        ]
+      },
+      "monthly": {
+        "current": "4.8%",
+        "target": "2.0%",
+        "variance": "+140%",
+        "trend": "+0.6% vs Nov",
+        "trendDirection": "negative",
+        "description": "December stock-outs 140% above target. Holiday demand significantly unmet.",
+        "impact": "$280K December lost sales; holiday demand unmet",
+        "impactSeverity": "critical",
+        "drivers": {
+          "horizontal": [
+            "Forecast Accuracy: 82.7% vs 90% target for December peak period",
+            "Inbound Lead Time: 12.3 days vs 8-day target during peak season",
+            "Safety Stock Coverage: Only 3.2 days vs 7-day target for A-items"
+          ],
+          "vertical": [
+            "North America: 5.2% stock-out rate during critical holiday window",
+            "Top 10 SKUs: 8 experienced stock-outs during December peak",
+            "Retail Channel: 5.4% stock-out rate impacting in-store availability"
+          ]
+        },
+        "actions": [
+          "Execute emergency air freight for top 20 critical SKUs",
+          "Implement daily S&OP sync meetings through December 31",
+          "Activate demand shaping promotions to smooth peak demand"
+        ]
+      },
+      "weekly": {
+        "current": "4.2%",
+        "target": "2.0%",
+        "variance": "+110%",
+        "trend": "-0.4% vs last week",
+        "trendDirection": "positive",
+        "description": "Week of Dec 11-17 shows improvement. Still 110% above target but trending favorably.",
+        "impact": "$68K weekly lost sales; 12 SKUs critically low",
+        "impactSeverity": "warning",
+        "drivers": {
+          "horizontal": [
+            "Weekly Receipts: 92% of planned POs received vs 85% previous week",
+            "Expedited Freight: 15 emergency shipments arrived mid-week",
+            "Allocation Logic: New rules prioritized high-margin customers"
+          ],
+          "vertical": [
+            "Midwest DC: Improved to 3.8% from 5.1% previous week",
+            "Home Goods Category: Week showed 3.5% stock-out vs 5.2% last week",
+            "B2B Channel: Improved allocation resulted in 3.1% stock-outs"
+          ]
+        },
+        "actions": [
+          "Maintain expedited freight for remaining 12 critical SKUs",
+          "Continue enhanced weekly allocation review process",
+          "Monitor inbound receipts daily for next 2 weeks"
+        ]
+      }
+    }
+  },
+  "otif-delivery": {
+    "id": "otif-delivery",
+    "title": "OTIF Delivery",
+    "category": "warning",
+    "kpi": "OTIF (On-Time In-Full)",
+    "timeframes": {
+      "annual": {
+        "current": "86.8%",
+        "target": "95.0%",
+        "variance": "-8.6%",
+        "trend": "-2.3% YoY",
+        "trendDirection": "negative",
+        "description": "OTIF declined 2.3 points year-over-year. Lost 2 enterprise contracts worth $8.5M.",
+        "impact": "Lost 2 enterprise contracts worth $8.5M; penalty costs $420K",
+        "impactSeverity": "critical",
+        "drivers": {
+          "horizontal": [
+            "Supplier OTD: 90.8% vs 98% target - Supplier reliability gap of 7.2%",
+            "Logistics Performance: Carrier on-time degraded 5.1% year-over-year",
+            "Production Efficiency: 79.2% vs 85% target - Manufacturing delays accumulating"
+          ],
+          "vertical": [
+            "Europe Region: OTIF at 83.5%, lowest performing region",
+            "Manufacturing Plant B: Capacity bottlenecks causing 3-day delays",
+            "Enterprise Segment: Largest contracts showing 84.2% OTIF"
+          ]
+        },
+        "actions": [
+          "Launch Supplier Excellence Program with quarterly business reviews",
+          "Diversify carrier network and implement performance-based contracts",
+          "Invest $1.2M in Plant B capacity expansion and automation"
+        ]
+      },
+      "quarterly": {
+        "current": "86.2%",
+        "target": "95.0%",
+        "variance": "-9.3%",
+        "trend": "-3.1% vs Q3",
+        "trendDirection": "negative",
+        "description": "Q4 OTIF performance deteriorated significantly. 3 major contracts on probation.",
+        "impact": "3 major contracts on probation; renewal risk $6.2M",
+        "impactSeverity": "critical",
+        "drivers": {
+          "horizontal": [
+            "Q4 Volume Surge: 22% order volume increase strained network capacity",
+            "Weather Disruptions: Midwest storms delayed 340+ shipments in Q4",
+            "Production Scheduling: Plant utilization at 96% limited flexibility"
+          ],
+          "vertical": [
+            "Europe: OTIF declined to 82.8% due to cross-border customs delays",
+            "Key Accounts Team: Top 10 customers averaged only 85.1% OTIF",
+            "Custom Products: Complex orders showing 81.5% OTIF in Q4"
+          ]
+        },
+        "actions": [
+          "Establish dedicated capacity for top 10 enterprise accounts",
+          "Implement real-time shipment tracking with proactive alerts",
+          "Create Q4 playbook for future peak season capacity planning"
+        ]
+      },
+      "monthly": {
+        "current": "87.2%",
+        "target": "95.0%",
+        "variance": "-8.2%",
+        "trend": "-1.5% vs Nov",
+        "trendDirection": "negative",
+        "description": "December OTIF below target. 3 customer escalations requiring executive intervention.",
+        "impact": "3 customer escalations; contract penalty exposure $125K",
+        "impactSeverity": "warning",
+        "drivers": {
+          "horizontal": [
+            "Supplier OTD: 91.5% vs 98% target in December peak period",
+            "Carrier Performance: 88.3% on-time vs 95% target during holidays",
+            "Production Output: December achieved 94% of plan due to absenteeism"
+          ],
+          "vertical": [
+            "Northeast Region: Winter storms impacted 78 deliveries (4.2% of total)",
+            "Enterprise Accounts: 3 escalations from Fortune 500 customers",
+            "Premium SKUs: High-value products showed 85.8% OTIF"
+          ]
+        },
+        "actions": [
+          "Daily OTIF war room meetings through December 31",
+          "Executive outreach to 3 escalated accounts with recovery plans",
+          "Activate backup carriers for weather-impacted lanes"
+        ]
+      },
+      "weekly": {
+        "current": "88.1%",
+        "target": "95.0%",
+        "variance": "-7.3%",
+        "trend": "+1.2% vs last week",
+        "trendDirection": "positive",
+        "description": "Week of Dec 11-17 shows improvement. Monitoring 2 at-risk accounts closely.",
+        "impact": "Week showed improvement; monitoring 2 at-risk accounts",
+        "impactSeverity": "info",
+        "drivers": {
+          "horizontal": [
+            "Carrier Performance: Improved to 91.2% on-time after weather cleared",
+            "Production Output: Week achieved 98% of plan with overtime shifts",
+            "Supplier Deliveries: 93.8% OTD for weekly receipts"
+          ],
+          "vertical": [
+            "Midwest Region: OTIF recovered to 89.5% with clear weather",
+            "Standard Products: Achieved 91.2% OTIF this week",
+            "Direct Ship: 92.1% OTIF for orders shipped directly from plants"
+          ]
+        },
+        "actions": [
+          "Maintain daily monitoring of 2 at-risk enterprise accounts",
+          "Continue overtime authorization through December peak",
+          "Recognize carrier partners with strong weekly performance"
+        ]
+      }
+    }
+  },
+  "cost-per-unit": {
+    "id": "cost-per-unit",
+    "title": "Cost Per Unit",
+    "category": "warning",
+    "kpi": "Cost Per Unit",
+    "timeframes": {
+      "annual": {
+        "current": "$24.80",
+        "target": "$22.00",
+        "variance": "+12.7%",
+        "trend": "+$1.20 YoY",
+        "trendDirection": "negative",
+        "description": "Unit costs increased $1.20 year-over-year. Gross margin compressed 3.8%.",
+        "impact": "Gross margin compressed 3.8%; $4.2M profit erosion",
+        "impactSeverity": "critical",
+        "drivers": {
+          "horizontal": [
+            "Procurement: Raw material costs increased 9.2% due to commodity inflation",
+            "Manufacturing Operations: Labor costs up 6.8% due to skill shortage premiums",
+            "Logistics Network: Transportation costs increased 8.1% per unit shipped"
+          ],
+          "vertical": [
+            "Plant C (Asia): Highest cost per unit at $26.80 vs Plant A at $22.40",
+            "Premium Product Line: Unit cost $29.20, margin impact -4.8%",
+            "Supply Chain Finance: Working capital efficiency down 12%, increasing carrying costs"
+          ]
+        },
+        "actions": [
+          "Execute strategic sourcing initiative targeting $1.8M annual savings",
+          "Implement lean manufacturing program across all 5 plants",
+          "Optimize logistics network with route optimization and load consolidation"
+        ]
+      },
+      "quarterly": {
+        "current": "$24.90",
+        "target": "$22.00",
+        "variance": "+13.2%",
+        "trend": "+$0.65 vs Q3",
+        "trendDirection": "negative",
+        "description": "Q4 costs escalated. Margin target missed by 4.1%, requiring CFO escalation.",
+        "impact": "Q4 margin target missed by 4.1%; CFO escalation required",
+        "impactSeverity": "critical",
+        "drivers": {
+          "horizontal": [
+            "Q4 Material Costs: Steel prices spiked 11% in Q4 due to supply constraints",
+            "Q4 Labor Costs: Holiday overtime and seasonal hiring added $0.35/unit",
+            "Q4 Freight Costs: Peak season surcharges added $0.42/unit"
+          ],
+          "vertical": [
+            "Plant B: Q4 efficiency drop to 76.2% increased unit cost to $25.80",
+            "Seasonal Products: Holiday SKUs cost $27.50/unit vs standard $23.20",
+            "Expedited Orders: Rush production added average $3.80/unit premium"
+          ]
+        },
+        "actions": [
+          "Freeze non-critical hiring and discretionary spending in Q1",
+          "Negotiate early commitments with suppliers for Q1 rate locks",
+          "Review and optimize Q4 peak season playbook for next year"
+        ]
+      },
+      "monthly": {
+        "current": "$24.50",
+        "target": "$22.00",
+        "variance": "+11.4%",
+        "trend": "+$0.30 vs Nov",
+        "trendDirection": "negative",
+        "description": "December margin compressed 3.2%. Production cost audit initiated.",
+        "impact": "December margin compressed 3.2%; production cost audit needed",
+        "impactSeverity": "warning",
+        "drivers": {
+          "horizontal": [
+            "Material Costs: December steel contracts up $0.18/unit from November",
+            "Labor Costs: Holiday overtime premium added $0.22/unit in December",
+            "Overhead Allocation: December fixed costs spread over lower volume"
+          ],
+          "vertical": [
+            "Plant A: Maintained best-in-class $22.90/unit despite headwinds",
+            "High-Velocity SKUs: Standard products averaged $23.50/unit",
+            "Low-Volume SKUs: Complex products reached $28.20/unit in December"
+          ]
+        },
+        "actions": [
+          "Complete cost audit by December 31 with action plan",
+          "Renegotiate Q1 supplier contracts to capture deflation opportunities",
+          "Optimize product mix to favor higher-margin standard SKUs"
+        ]
+      },
+      "weekly": {
+        "current": "$24.20",
+        "target": "$22.00",
+        "variance": "+10.0%",
+        "trend": "-$0.15 vs last week",
+        "trendDirection": "positive",
+        "description": "Week of Dec 11-17 shows cost reduction from supplier negotiations.",
+        "impact": "Weekly cost reduction from supplier negotiations",
+        "impactSeverity": "info",
+        "drivers": {
+          "horizontal": [
+            "Material Savings: Supplier negotiation achieved $0.12/unit reduction",
+            "Labor Efficiency: Week ran at 81.2% efficiency reducing cost $0.08/unit",
+            "Freight Optimization: Load consolidation saved $0.05/unit this week"
+          ],
+          "vertical": [
+            "Plant A: Weekly leader at $22.50/unit with lean practices",
+            "Standard Products: Achieved $23.20/unit with efficient runs",
+            "Direct Materials: Week showed 2.1% material cost improvement"
+          ]
+        },
+        "actions": [
+          "Scale supplier negotiation wins to other material categories",
+          "Share Plant A best practices to other facilities this week",
+          "Continue weekly cost review meetings through year-end"
+        ]
+      }
+    }
+  },
+  "lead-time": {
+    "id": "lead-time",
+    "title": "Lead Time",
+    "category": "warning",
+    "kpi": "Average Lead Time",
+    "timeframes": {
+      "annual": {
+        "current": "12.8 days",
+        "target": "8.0 days",
+        "variance": "+60%",
+        "trend": "+1.5 days YoY",
+        "trendDirection": "negative",
+        "description": "Lead time increased 1.5 days year-over-year. Expedited costs up $680K.",
+        "impact": "Expedited shipping costs up $680K; working capital tied up",
+        "impactSeverity": "warning",
+        "drivers": {
+          "horizontal": [
+            "Supplier Processing: Average 6.8 days vs 2-day industry benchmark",
+            "Quality Assurance: Inspection and testing adding 2.4 days of lead time",
+            "Customs Documentation: International shipments delayed 2.1 days average"
+          ],
+          "vertical": [
+            "APAC Sourcing: Lead time 17.2 days vs Americas at 9.5 days",
+            "Custom Products: Complex orders averaging 19.5 days vs standard 8.2 days",
+            "Port Warehouses: Cross-dock operations adding 1.5 days vs Direct Ship"
+          ]
+        },
+        "actions": [
+          "Implement vendor-managed inventory (VMI) for top 30 suppliers",
+          "Streamline QA process with risk-based sampling approach",
+          "Nearshore 20% of APAC sourcing to Mexico/Latin America"
+        ]
+      },
+      "quarterly": {
+        "current": "13.1 days",
+        "target": "8.0 days",
+        "variance": "+64%",
+        "trend": "+1.8 days vs Q3",
+        "trendDirection": "negative",
+        "description": "Q4 lead times deteriorated. Expedited costs reached 2.3x normal levels.",
+        "impact": "Q4 expedited costs reached $185K; 2.3x normal levels",
+        "impactSeverity": "warning",
+        "drivers": {
+          "horizontal": [
+            "Q4 Supplier Delays: Peak season demand caused 2.2-day supplier delays",
+            "Q4 Port Congestion: West Coast ports added 1.5 days to ocean freight",
+            "Q4 Carrier Capacity: Limited trucking capacity added 0.8 days"
+          ],
+          "vertical": [
+            "APAC Routes: Q4 lead time reached 18.5 days with port delays",
+            "Holiday Products: Seasonal SKUs averaged 15.2 days lead time",
+            "Air Freight: Emergency shipments averaged 4.5 days vs 13.1 ocean"
+          ]
+        },
+        "actions": [
+          "Book Q1 ocean freight capacity early at favorable rates",
+          "Increase safety stock for APAC-sourced items by 15%",
+          "Establish air freight contracts for Q1 critical needs"
+        ]
+      },
+      "monthly": {
+        "current": "12.3 days",
+        "target": "8.0 days",
+        "variance": "+54%",
+        "trend": "+0.8 days vs Nov",
+        "trendDirection": "negative",
+        "description": "December lead time 54% above target. Buffer stock depleted requiring expedited freight.",
+        "impact": "December expedited shipping $62K; buffer stock depleted",
+        "impactSeverity": "warning",
+        "drivers": {
+          "horizontal": [
+            "Supplier Lead Time: December averaged 6.2 days processing vs 2-day target",
+            "Customs Clearance: Holiday staffing caused 2.8-day delays vs 1.2 normal",
+            "Final Mile Delivery: December carrier delays added 1.1 days"
+          ],
+          "vertical": [
+            "China Suppliers: December lead time 14.5 days with factory holidays approaching",
+            "Electronics Category: Components averaged 13.8 days in December",
+            "Cross-Border: Canada/Mexico shipments averaged 10.2 days with customs"
+          ]
+        },
+        "actions": [
+          "Expedite 25 critical POs via air freight before year-end",
+          "Pre-clear customs documentation for January receipts",
+          "Confirm supplier production schedules for post-holiday restart"
+        ]
+      },
+      "weekly": {
+        "current": "11.8 days",
+        "target": "8.0 days",
+        "variance": "+48%",
+        "trend": "-0.3 days vs last week",
+        "trendDirection": "positive",
+        "description": "Week of Dec 11-17 shows improvement. APAC shipments arrived early.",
+        "impact": "Lead time slightly improved; APAC shipments arrived early",
+        "impactSeverity": "info",
+        "drivers": {
+          "horizontal": [
+            "Supplier Performance: Week averaged 5.5 days processing, improving",
+            "Port Operations: West Coast congestion eased, saving 0.8 days",
+            "Carrier Transit: Weekly transit times improved 0.5 days"
+          ],
+          "vertical": [
+            "APAC Shipments: 3 major containers arrived 2 days early this week",
+            "Domestic Suppliers: Averaged 8.2 days, near target performance",
+            "Standard Products: Week averaged 10.5 days vs 13.2 for custom"
+          ]
+        },
+        "actions": [
+          "Recognize suppliers with early weekly deliveries",
+          "Monitor port operations daily for continued improvement",
+          "Continue weekly supplier scorecard reviews"
+        ]
+      }
+    }
+  }
+};
+
+// Inlined Data from Key_Opportunities.json
+const keyOpportunitiesData = {
+  "production-efficiency": {
+    "id": "production-efficiency",
+    "title": "Production Efficiency",
+    "category": "success",
+    "kpi": "Production Efficiency",
+    "timeframes": {
+      "annual": {
+        "current": "79.2%",
+        "target": "85.0%",
+        "variance": "-6.8%",
+        "trend": "+3.1% YoY",
+        "trendDirection": "positive",
+        "description": "Efficiency improved 3.1 points year-over-year. $2.1M automation ROI realized.",
+        "impact": "Automation ROI: $2.1M cost avoidance; scale playbook to 3 plants",
+        "impactSeverity": "success",
+        "drivers": {
+          "horizontal": [
+            "Manufacturing Technology: New automation tools improving throughput by 4.2%",
+            "Process Engineering: Lean initiatives eliminating 3.8% waste year-over-year",
+            "Maintenance Team: Preventive maintenance reducing downtime by 2.5%"
+          ],
+          "vertical": [
+            "Plant A: Efficiency at 82.1%, best performing location and model facility",
+            "Shift A (Day Shift): Consistently outperforming with 81.5% efficiency",
+            "High-Volume Products: Standard products achieving 84.2% efficiency"
+          ]
+        },
+        "actions": [
+          "Scale Plant A playbook to Plants B, C, and D in 2026",
+          "Invest additional $800K in automation for high-ROI processes",
+          "Establish Center of Excellence for Manufacturing Best Practices"
+        ]
+      },
+      "quarterly": {
+        "current": "78.5%",
+        "target": "85.0%",
+        "variance": "-7.6%",
+        "trend": "+1.8% vs Q3",
+        "trendDirection": "positive",
+        "description": "Q4 efficiency gains accelerating. Plant A leading at 82.1%.",
+        "impact": "Q4 automation gains: $580K savings; Plant A leading at 82.1%",
+        "impactSeverity": "success",
+        "drivers": {
+          "horizontal": [
+            "Q4 Equipment Upgrades: New CNC machines increased output 5.2%",
+            "Q4 Training Program: 85 operators certified in lean practices",
+            "Q4 Quality Improvements: First-pass yield improved to 94.3%"
+          ],
+          "vertical": [
+            "Plant A Q4: Sustained 82.1% efficiency through peak demand",
+            "Assembly Line 3: Achieved record 86.5% efficiency in Q4",
+            "Standard SKUs: Q4 production runs averaged 83.8% efficiency"
+          ]
+        },
+        "actions": [
+          "Replicate Assembly Line 3 setup to Lines 1, 2, and 4",
+          "Graduate 120 additional operators in lean certification Q1",
+          "Capture and document Q4 best practices in playbook"
+        ]
+      },
+      "monthly": {
+        "current": "78.9%",
+        "target": "85.0%",
+        "variance": "-7.2%",
+        "trend": "+2.3% vs Nov",
+        "trendDirection": "positive",
+        "description": "December showing strong improvement. Shift A achieving 81.5%.",
+        "impact": "December lean wins: $165K saved; shift A achieving 81.5%",
+        "impactSeverity": "success",
+        "drivers": {
+          "horizontal": [
+            "December Kaizen Events: 12 rapid improvement workshops eliminated bottlenecks",
+            "December Uptime: Equipment availability improved to 91.2% vs 87.8% in Nov",
+            "December Changeovers: Average setup time reduced from 42 to 35 minutes"
+          ],
+          "vertical": [
+            "Shift A Performance: Day shift at 81.5%, setting new monthly record",
+            "Plant A December: Maintained leadership at 82.8% efficiency",
+            "Product Line A: High-volume line achieved 85.1% in December"
+          ]
+        },
+        "actions": [
+          "Share Shift A practices with Shift B and C teams",
+          "Run 15 additional Kaizen events in January targeting top losses",
+          "Implement Shift A supervisor rotation to spread knowledge"
+        ]
+      },
+      "weekly": {
+        "current": "79.5%",
+        "target": "85.0%",
+        "variance": "-6.5%",
+        "trend": "+0.8% vs last week",
+        "trendDirection": "positive",
+        "description": "Week of Dec 11-17 shows continued gains. New tooling proving effective.",
+        "impact": "Week efficiency gains from new tooling; scaling to other shifts",
+        "impactSeverity": "info",
+        "drivers": {
+          "horizontal": [
+            "New Tooling: Week 1 results showing 1.2% throughput improvement",
+            "Weekly Uptime: Equipment availability at 92.5%, highest this month",
+            "Weekly Quality: Zero defects recorded on 3 production lines"
+          ],
+          "vertical": [
+            "Plant A Weekly: Achieved 83.2% efficiency, monthly high",
+            "Shift A Weekly: Record 82.8% efficiency on Wednesday",
+            "Line 3 Weekly: Sustained 87.1% efficiency for full week"
+          ]
+        },
+        "actions": [
+          "Order 4 additional new tooling sets for other lines",
+          "Schedule weekly knowledge sharing sessions in January",
+          "Monitor new tooling performance daily for optimization"
+        ]
+      }
+    }
+  },
+  "warehouse-utilization": {
+    "id": "warehouse-utilization",
+    "title": "Warehouse Utilization",
+    "category": "success",
+    "kpi": "Warehouse Utilization",
+    "timeframes": {
+      "annual": {
+        "current": "91.8%",
+        "target": "88.0%",
+        "variance": "+4.3%",
+        "trend": "+2.4% YoY",
+        "trendDirection": "positive",
+        "description": "Utilization 4.3% above target. Enables $3.8M expansion without new CapEx.",
+        "impact": "Excess capacity enables $3.8M expansion without CapEx",
+        "impactSeverity": "success",
+        "drivers": {
+          "horizontal": [
+            "Inventory Optimization: ABC analysis improving space utilization by 5.2%",
+            "Warehouse Management: Automated picking systems reducing footprint needs 4.8%",
+            "Logistics Network: Cross-docking strategy reducing storage requirements 3.2%"
+          ],
+          "vertical": [
+            "Warehouse C: Achieving 94.3% utilization as model facility",
+            "Regional Distribution: Central warehouse at 92.8%, exceeding expectations",
+            "Seasonal Products: Smart pre-positioning saving 2.5% capacity annually"
+          ]
+        },
+        "actions": [
+          "Scale Warehouse C space optimization playbook to 7 other DCs",
+          "Expand cross-dock operations to reduce storage by additional 8%",
+          "Defer planned $2.5M DC expansion by 18 months given capacity buffer"
+        ]
+      },
+      "quarterly": {
+        "current": "92.5%",
+        "target": "88.0%",
+        "variance": "+5.1%",
+        "trend": "+3.1% vs Q3",
+        "trendDirection": "positive",
+        "description": "Q4 capacity buffer absorbed $980K in rush orders without overflow costs.",
+        "impact": "Q4 capacity buffer: enables $980K rush orders without overflow costs",
+        "impactSeverity": "success",
+        "drivers": {
+          "horizontal": [
+            "Q4 Slotting Optimization: Re-slotted 2,400+ SKUs for peak efficiency",
+            "Q4 Technology: Implemented vertical storage systems in 3 DCs",
+            "Q4 Network Design: Consolidated 2 satellite DCs into main facilities"
+          ],
+          "vertical": [
+            "Warehouse C Q4: Reached 95.8% utilization during peak season",
+            "Central DC: Handled 18% volume surge without overflow storage",
+            "Fast-Moving SKUs: Optimal slotting reduced travel time 22%"
+          ]
+        },
+        "actions": [
+          "Install vertical storage systems in 4 additional DCs in Q1",
+          "Complete slotting re-optimization in January for normal season",
+          "Evaluate permanent closure of 1 satellite DC to reduce costs"
+        ]
+      },
+      "monthly": {
+        "current": "92.1%",
+        "target": "88.0%",
+        "variance": "+4.7%",
+        "trend": "+1.8% vs Nov",
+        "trendDirection": "positive",
+        "description": "December avoided $280K in outsourcing costs due to capacity optimization.",
+        "impact": "December overflow avoided: $280K in outsourcing costs saved",
+        "impactSeverity": "success",
+        "drivers": {
+          "horizontal": [
+            "December Inventory Mix: Reduced slow-moving SKUs freed 3.2% capacity",
+            "December Picking Efficiency: Automated systems increased picks/hour 12%",
+            "December Returns Processing: Streamlined process reduced staging space 8%"
+          ],
+          "vertical": [
+            "Warehouse B: December reached 93.5% with holiday surge",
+            "E-commerce DC: Achieved 94.1% during peak shipping week",
+            "Returns Center: Optimized flow reduced required space 850 sq ft"
+          ]
+        },
+        "actions": [
+          "Extend automated picking to 2 additional DCs in January",
+          "Liquidate remaining slow-moving inventory to free capacity",
+          "Document December playbook for next holiday season"
+        ]
+      },
+      "weekly": {
+        "current": "91.5%",
+        "target": "88.0%",
+        "variance": "+4.0%",
+        "trend": "-0.6% vs last week",
+        "trendDirection": "negative",
+        "description": "Week utilization dip due to inventory realignment. On track to targets.",
+        "impact": "Weekly utilization dip due to inventory realignment; on track",
+        "impactSeverity": "info",
+        "drivers": {
+          "horizontal": [
+            "Inventory Realignment: Pre-positioning for January demand patterns",
+            "Weekly Receipts: Light inbound week (78% of normal) planned",
+            "Weekly Shipments: Heavy outbound week cleared December backlog"
+          ],
+          "vertical": [
+            "Warehouse A: Weekly utilization 89.2%, below recent 93.5%",
+            "Central DC: Realignment dropped utilization to 90.8%",
+            "Regional DCs: Average 91.2% as inventory redistributed"
+          ]
+        },
+        "actions": [
+          "Complete inventory realignment by December 20",
+          "Prepare for January receipts surge starting week of Dec 26",
+          "Monitor utilization daily to ensure realignment on schedule"
+        ]
+      }
+    }
+  },
+  "market-recovery": {
+    "id": "market-recovery",
+    "title": "Market Recovery",
+    "category": "info",
+    "kpi": "Market Growth Rate",
+    "timeframes": {
+      "annual": {
+        "current": "+9.5%",
+        "target": "+5.0%",
+        "variance": "+90%",
+        "trend": "+4.5% vs target",
+        "trendDirection": "positive",
+        "description": "Tech and Energy sectors growing 9.5%, well above 5% target. $12.5M pipeline developed.",
+        "impact": "Tech/Energy sectors: $12.5M new pipeline; greenfield opportunities",
+        "impactSeverity": "success",
+        "drivers": {
+          "horizontal": [
+            "Sales & Marketing: New sector campaigns driving 14.2% lead generation increase",
+            "Product Development: Tech sector solutions launched on schedule with NPS 72",
+            "Customer Success: Tech segment NPS improved to 68, up 9 points year-over-year"
+          ],
+          "vertical": [
+            "North America: Tech sector orders up 17.5% YoY, strongest growth",
+            "Enterprise Sales: New logo acquisition accelerating at 22% rate",
+            "Green Energy Initiative: Energy sector contracts up 11.2%, strategic focus paying off"
+          ]
+        },
+        "actions": [
+          "Double down on Tech/Energy sectors with dedicated sales pods",
+          "Invest $1.5M in sector-specific product roadmap for 2026",
+          "Establish Energy Sector Center of Excellence for domain expertise"
+        ]
+      },
+      "quarterly": {
+        "current": "+10.2%",
+        "target": "+5.0%",
+        "variance": "+104%",
+        "trend": "+5.2% vs Q3 target",
+        "trendDirection": "positive",
+        "description": "Q4 bookings accelerating. Tech +$3.2M, Energy +$1.8M in new business.",
+        "impact": "Q4 new bookings: Tech sector +$3.2M; Energy sector +$1.8M",
+        "impactSeverity": "success",
+        "drivers": {
+          "horizontal": [
+            "Q4 Sales Events: 3 major sector conferences drove 185 qualified leads",
+            "Q4 Product Launches: AI-enabled solutions resonating with tech buyers",
+            "Q4 Partnerships: 2 new tech integrations expanding addressable market"
+          ],
+          "vertical": [
+            "West Coast Tech: Silicon Valley accounts grew 15.8% in Q4",
+            "Renewable Energy: Solar/wind segments showing 12.5% growth",
+            "Mid-Market Tech: SMB tech accounts up 19.2%, highest growth segment"
+          ]
+        },
+        "actions": [
+          "Expand sales team in West Coast territory by 3 reps in Q1",
+          "Launch renewable energy vertical marketing campaign in January",
+          "Develop SMB tech segment playbook based on Q4 wins"
+        ]
+      },
+      "monthly": {
+        "current": "+8.0%",
+        "target": "+5.0%",
+        "variance": "+60%",
+        "trend": "+3.0% vs Nov target",
+        "trendDirection": "positive",
+        "description": "December pipeline strong. 18 new tech leads worth $1.2M potential ARR.",
+        "impact": "December pipeline: 18 new tech leads worth $1.2M potential ARR",
+        "impactSeverity": "success",
+        "drivers": {
+          "horizontal": [
+            "December Campaigns: Holiday promotions drove 42 inbound leads",
+            "December Demos: Conducted 28 product demonstrations, 65% qualified",
+            "December Closings: Closed 7 deals worth $580K, above monthly average"
+          ],
+          "vertical": [
+            "SaaS Sector: December added 9 SaaS company prospects to pipeline",
+            "Energy Storage: Battery/storage segment showing strong December interest",
+            "FinTech: 5 financial technology prospects engaged in December"
+          ]
+        },
+        "actions": [
+          "Follow up on 18 December leads within first week of January",
+          "Schedule January executive briefings for top 8 prospects",
+          "Prepare energy storage case studies for January campaigns"
+        ]
+      },
+      "weekly": {
+        "current": "+7.2%",
+        "target": "+5.0%",
+        "variance": "+44%",
+        "trend": "+2.2% vs last week",
+        "trendDirection": "positive",
+        "description": "Week of Dec 11-17 generated strong interest. 5 tech demos scheduled.",
+        "impact": "Weekly pipeline: 5 tech sector demos scheduled; strong interest",
+        "impactSeverity": "info",
+        "drivers": {
+          "horizontal": [
+            "Weekly Outreach: SDR team generated 15 new qualified conversations",
+            "Weekly Content: Published AI case study drove 82 website visits",
+            "Weekly Events: Virtual roundtable attracted 28 tech executives"
+          ],
+          "vertical": [
+            "Enterprise Tech: 3 Fortune 1000 tech companies requested demos",
+            "CleanTech: 2 renewable energy startups entered pilot discussions",
+            "Tech Ecosystem: Partner referrals generated 4 warm introductions"
+          ]
+        },
+        "actions": [
+          "Prepare custom demos for 5 scheduled tech sector meetings",
+          "Publish second AI case study next week to maintain momentum",
+          "Schedule January virtual roundtable for energy sector"
+        ]
+      }
+    }
+  },
+  "supplier-otd": {
+    "id": "supplier-otd",
+    "title": "Supplier OTD",
+    "category": "info",
+    "kpi": "Supplier On-Time Delivery",
+    "timeframes": {
+      "annual": {
+        "current": "92.8%",
+        "target": "98.0%",
+        "variance": "-5.3%",
+        "trend": "+2.8% YoY",
+        "trendDirection": "positive",
+        "description": "Supplier OTD improved 2.8 points year-over-year. Top 20 suppliers at 96.1%.",
+        "impact": "Top 20 suppliers: 96.1% OTD; strategic partnerships strengthening",
+        "impactSeverity": "success",
+        "drivers": {
+          "horizontal": [
+            "Procurement: Vendor scoring improving supplier selection accuracy by 6.2%",
+            "Supply Chain Planning: Demand signals shared 3 weeks early with top suppliers",
+            "Quality Assurance: Supplier quality programs reducing defects by 4.1%"
+          ],
+          "vertical": [
+            "APAC Supplier Base: OTD improved to 94.2% from 90.8% previous year",
+            "Tier-1 Suppliers: Strategic partners showing 96.1% OTD performance",
+            "Components Category: Fast-moving components achieving 95.2% OTD"
+          ]
+        },
+        "actions": [
+          "Expand Tier-1 program from 20 to 35 strategic suppliers in 2026",
+          "Implement supplier development program for underperformers",
+          "Deploy collaborative planning portal to all Tier-1/2 suppliers"
+        ]
+      },
+      "quarterly": {
+        "current": "93.2%",
+        "target": "98.0%",
+        "variance": "-4.9%",
+        "trend": "+1.5% vs Q3",
+        "trendDirection": "positive",
+        "description": "Q4 vendor program successful. 8 suppliers graduated to Tier-1 status.",
+        "impact": "Q4 vendor program: 8 suppliers graduated to Tier-1 status",
+        "impactSeverity": "success",
+        "drivers": {
+          "horizontal": [
+            "Q4 Supplier Summits: Held 3 strategic planning sessions with top vendors",
+            "Q4 Performance Reviews: Quarterly scorecards drove 5.8% improvement",
+            "Q4 Incentive Program: Bonus structure rewarded OTD performance"
+          ],
+          "vertical": [
+            "Tier-1 Graduates: 8 suppliers achieved 98%+ OTD for 3 consecutive months",
+            "APAC Q4: Supplier base averaged 94.8% OTD during peak season",
+            "Critical Components: Key materials achieved 96.5% Q4 OTD"
+          ]
+        },
+        "actions": [
+          "Onboard 8 new Tier-1 suppliers with enhanced collaboration tools",
+          "Launch Q1 supplier excellence awards to recognize top performers",
+          "Extend incentive program to next tier of 15 suppliers"
+        ]
+      },
+      "monthly": {
+        "current": "92.5%",
+        "target": "98.0%",
+        "variance": "-5.6%",
+        "trend": "+1.2% vs Nov",
+        "trendDirection": "positive",
+        "description": "December supplier performance strong. APAC base improved to 93.8%.",
+        "impact": "December supplier performance: APAC base improved to 93.8%",
+        "impactSeverity": "success",
+        "drivers": {
+          "horizontal": [
+            "December Planning: Early holiday shutdown communications improved coordination",
+            "December Expediting: Proactive expediting of 42 critical POs successful",
+            "December Monitoring: Daily supplier check-ins maintained performance"
+          ],
+          "vertical": [
+            "China Suppliers: December OTD 93.2% despite pre-holiday pressures",
+            "Domestic Suppliers: Achieved 95.8% OTD in December",
+            "Top 10 Suppliers: Maintained 97.2% OTD through peak season"
+          ]
+        },
+        "actions": [
+          "Confirm post-holiday restart dates with all APAC suppliers",
+          "Schedule January supplier business reviews with top 20",
+          "Share December success metrics and recognize top performers"
+        ]
+      },
+      "weekly": {
+        "current": "93.1%",
+        "target": "98.0%",
+        "variance": "-5.0%",
+        "trend": "+0.6% vs last week",
+        "trendDirection": "positive",
+        "description": "Week of Dec 11-17 solid. Components category at 94.5% OTD.",
+        "impact": "Weekly supplier deliveries: 94.5% OTD for components category",
+        "impactSeverity": "info",
+        "drivers": {
+          "horizontal": [
+            "Weekly Receipts: 87 of 93 expected POs received on time (93.5%)",
+            "Weekly Communication: Proactive supplier outreach prevented 4 delays",
+            "Weekly Expediting: Successfully expedited 6 critical shipments"
+          ],
+          "vertical": [
+            "Components Suppliers: Weekly OTD 94.5%, category leader",
+            "Tier-1 Suppliers: Weekly performance 96.8%, consistent excellence",
+            "Mexico Suppliers: Achieved 97.1% weekly OTD, nearshoring success"
+          ]
+        },
+        "actions": [
+          "Continue proactive communication approach next week",
+          "Share components category best practices with other categories",
+          "Monitor year-end holiday schedules for potential delays"
+        ]
+      }
+    }
+  }
+};
+
 function switchSummarySubTab(subTabId, button) {
     // Hide all sub-tab contents within #summary
     document.querySelectorAll('#summary .sub-tab-content').forEach(content => {
@@ -318,12 +1258,82 @@ function switchSummarySubTab(subTabId, button) {
     if (selectedSubTab) {
         selectedSubTab.classList.add('active');
         selectedSubTab.style.display = 'flex';
+        
+        // Extract timeframe from ID (summary-yearly -> yearly)
+        const timeframe = subTabId.replace('summary-', '');
+        
+        // Render data for this timeframe (data is now inlined)
+        renderSummaryDataForTimeframe(timeframe);
     }
 
     // Activate the clicked sub-tab button
     if (button) {
         button.classList.add('active');
     }
+}
+
+function renderSummaryDataForTimeframe(timeframe) {
+    // Map UI timeframe to JSON keys
+    const timeMap = {
+        'yearly': 'annual',
+        'quarterly': 'quarterly',
+        'monthly': 'monthly',
+        'weekly': 'weekly'
+    };
+    const jsonKey = timeMap[timeframe] || 'annual';
+
+    // 1. Render Critical Issues
+    const criticalContainer = document.getElementById(`critical-issues-grid-${timeframe}`);
+    if (criticalContainer && criticalIssuesData) {
+        criticalContainer.innerHTML = Object.keys(criticalIssuesData).map(key => {
+            const item = criticalIssuesData[key];
+            const data = item.timeframes[jsonKey];
+            if (!data) return '';
+
+            // Determine status class based on severity
+            let statusClass = 'info';
+            if (data.impactSeverity === 'critical') statusClass = 'critical';
+            else if (data.impactSeverity === 'warning') statusClass = 'warning';
+            else if (data.impactSeverity === 'success') statusClass = 'success';
+
+            return `
+                 <div class="insight-card ${statusClass}" onclick="explainSummaryItem('${key}', this)">
+                    <div class="insight-header">
+                        <span class="insight-title">${item.title}</span>
+                        <span class="insight-value value-${statusClass}">${data.current}</span>
+                    </div>
+                    <div class="insight-description"><strong>Description: </strong>${data.description}</div>
+                    <div class="insight-impact"><strong>Impact: </strong>${data.impact}</div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // 2. Render Key Opportunities
+    const oppContainer = document.getElementById(`opportunities-grid-${timeframe}`);
+    if (oppContainer && keyOpportunitiesData) {
+        oppContainer.innerHTML = Object.keys(keyOpportunitiesData).map(key => {
+            const item = keyOpportunitiesData[key];
+            const data = item.timeframes[jsonKey];
+            if (!data) return '';
+             
+             // Determine status class
+            let statusClass = 'info';
+            if (data.impactSeverity === 'success') statusClass = 'success';
+            else if (data.impactSeverity === 'info') statusClass = 'info';
+
+            return `
+                <div class="insight-card ${statusClass}" onclick="explainSummaryItem('${key}', this)">
+                    <div class="insight-title">${item.title}</div>
+                    <div class="insight-description">${data.description}</div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    // 3. Render Priority Actions - REMOVED per user request
+    // The Priority Actions section will remain static in index.html for the yearly tab,
+    // and potentially empty/hidden in others if not hardcoded.
 }
 
 function switchSubTab(subTabName, button) {
@@ -386,81 +1396,121 @@ function explainSummaryItem(itemType, element) {
     element.classList.add('selected'); // Add a 'selected' class for styling
 
     let explanation = '';
-    switch(itemType) {
-         case 'stockout-crisis':
-            explanation = `<b>Stock Out Rate Crisis (4.8% vs 2% Target):</b><br>
-                <b>Root Cause:</b> <br> Primarily driven by inaccurate demand forecasts (82.7% vs 90% target) and unreliable supplier deliveries (91.5% OTD).<br>
-                <b>Impact:</b> <br> Estimated $280K/month in lost sales. Significant negative impact on OTIF (87.2%). Customer satisfaction declining.<br>
-                <b>Action:</b> <br> Prioritize TKT-001. Implement emergency buffer stock for critical items. Expedite review of forecasting models and supplier performance agreements.`;
-            break;
-        case 'otif-decline':
-            explanation = `<b>OTIF Delivery Decline (87.2% vs 95% Target):</b><br>
-                <b>Root Cause:</b> <br> Combination of high stock-out rates (4.8%) and extended lead times (12.3 days). Logistics bottlenecks also contribute.<br>
-                <b>Impact:</b> <br> Risk to customer retention - 3 major contracts under review. Increased expedited shipping costs ($45K/month).<br>
-                <b>Action:</b> <br> Address root causes via TKT-001 (Stockouts) and TKT-003 (Lead Time). Initiate proactive communication with key customers regarding recovery plan.`;
-            break;
-        case 'cost-overrun':
-            explanation = `<b>Cost Per Unit Overrun ($24.50 vs $22 Target):</b><br>
-                <b>Root Cause:</b> <br> Driven by raw material inflation (+8% vs budget), increased labor costs, and energy price volatility. Production inefficiencies (78.9% efficiency) also play a role.<br>
-                <b>Impact:</b> <br> 3.2% compression in gross margin. Reduced price competitiveness.<br>
-                <b>Action:</b> <br> Prioritize TKT-004 (Cost Reduction). Accelerate lean manufacturing initiatives. Renegotiate with material suppliers or explore alternatives. Evaluate automation opportunities.`;
-            break;
-        case 'lead-time-delay':
-            explanation = `<b>Extended Lead Times (12.3 days vs 8 Target):</b><br>
-                <b>Root Cause:</b> <br> Supplier processing delays, international shipping complexities (customs, documentation), and internal quality inspection times. Supplier OTD (91.5%) is a major factor.<br>
-                <b>Impact:</b> <br> Slows time-to-market. Increases need for expedited shipping ($45K/month). Contributes to stock-outs.<br>
-                <b>Action:</b> <br> Prioritize TKT-003. Implement supplier collaboration platform for better visibility. Explore regional inventory hubs. Streamline internal order processing and inspection.`;
-            break;
-        case 'production-efficiency':
-            explanation = `<b>Production Efficiency Gain (78.9%, Trend +2.3%):</b><br>
-                <b>Status:</b> <br> Approaching 85% target due to recent equipment modernization and lean initiatives.<br>
-                <b>Opportunity:</b> <br> Reaching the 85% target could yield ~$180K/month in savings.<br>
-                <b>Action:</b> <br> Identify and replicate best practices from top-performing plants (Plant B: 82.6%, Plant D: 86.8%). Continue targeted automation investments.`;
-            break;
-        case 'warehouse-optimization':
-            explanation = `<b>Warehouse Capacity Utilization (92.1% vs 88% Target):</b><br>
-                <b>Status:</b> <br> Excellent performance driven by automation and optimized workflows.<br>
-                <b>Opportunity:</b> <br> Current efficiency provides capacity buffer for ~15% volume growth without major investment. Supports readiness for Q4 demand surge.<br>
-                <b>Action:</b> <br> Document and standardize successful processes. Explore application to other facilities. Monitor for potential over-utilization risks.`;
-            break;
-        case 'market-recovery':
-            explanation = `<b>Market Recovery Trends (Tech/Energy +8%):</b><br>
-                <b>Status:</b> <br> Positive market signals with strong Q4 demand forecast (+12-15%).<br>
-                <b>Opportunity:</b> <br> Significant potential to gain market share if operational challenges (OTIF, Cost) are addressed.<br>
-                <b>Action:</b> <br> Align production & inventory planning with forecast. Ensure supplier capacity. Marketing/Sales to prepare aggressive Q4 campaigns.`;
-            break;
-        case 'supplier-performance':
-             explanation = `<b>Supplier OTD Improvement (91.5%, Trend +1.2%):</b><br>
-                <b>Status:</b> <br> Performance improving due to new vendor program, but still below 98% target. Bottom quartile suppliers (87% OTD) are dragging down the average.<br>
-                <b>Risk:</b> <br> Geographic concentration in Asia remains a vulnerability.<br>
-                <b>Action:</b> <br> Focus supplier development efforts on bottom quartile. Continue diversification strategy. Implement stricter performance clauses in contracts for critical suppliers. Prioritize TKT-002.`;
-            break;
-        case 'action-expedite':
-             explanation = `<b>Expedite Raw Material Order (Urgent):</b><br>
-                <b>Context:</b> <br> Line 3 production at risk due to raw material shortage.<br>
-                <b>Impact:</b> <br> Potential 4-hour stoppage affecting 20% of daily output.<br>
-                <b>Action:</b> <br> Contact supplier for expedited air freight. Approval pre-authorized for up to $2k.`;
-            break;
-        case 'action-schedule':
-             explanation = `<b>Review Shift Schedule (Moderate):</b><br>
-                <b>Context:</b> <br> Weekend shift is currently understaffed by 2 operators.<br>
-                <b>Impact:</b> <br> Risk of overtime costs exceeding budget by 15%.<br>
-                <b>Action:</b> <br> Request voluntary overtime from weekday crew or authorize agency staff.`;
-            break;
-        case 'action-maintenance':
-             explanation = `<b>Approve Maintenance Request (Moderate):</b><br>
-                <b>Context:</b> <br> Forklift #4 requires hydraulic system repair.<br>
-                <b>Impact:</b> <br> Warehouse picking efficiency reduced by 5% until fixed.<br>
-                <b>Action:</b> <br> Approve work order WO-492. est cost $450. Repair scheduled for tonight.`;
-             break;
-        case 'action-guidelines':
-             explanation = `<b>Update Safety Guidelines (Low):</b><br>
-                 <b>Context:</b> <br> Q4 safety protocols require quarterly review and sign-off.<br>
-                 <b>Impact:</b> <br> Mandatory compliance requirement for ISO certification.<br>
-                 <b>Action:</b> <br> Assign to Safety Officer. Deadline: End of month.`;
-             break;
-        default:
-            explanation = 'Analysis for this item is not yet configured.';
+    
+    // Determine active timeframe
+    const activeTab = document.querySelector('#summary .sub-tab-content.active');
+    let timeframe = 'annual'; // Default
+    if (activeTab) {
+        const tabId = activeTab.id; // e.g., summary-yearly
+        const rawTimeframe = tabId.replace('summary-', '');
+        const timeMap = { 'yearly': 'annual', 'quarterly': 'quarterly', 'monthly': 'monthly', 'weekly': 'weekly' };
+        timeframe = timeMap[rawTimeframe] || 'annual';
+    }
+
+    // Check dynamic data first
+    let dynamicData = null;
+    let title = '';
+
+    if (criticalIssuesData && criticalIssuesData[itemType]) {
+        dynamicData = criticalIssuesData[itemType].timeframes[timeframe];
+        title = criticalIssuesData[itemType].title;
+    } else if (keyOpportunitiesData && keyOpportunitiesData[itemType]) {
+        dynamicData = keyOpportunitiesData[itemType].timeframes[timeframe];
+        title = keyOpportunitiesData[itemType].title;
+    }
+
+    if (dynamicData) {
+        // Construct explanation from JSON
+        explanation = `<b>${title} (${dynamicData.current}):</b><br>`;
+        if (dynamicData.target) explanation += `Target: ${dynamicData.target}<br>`;
+        if (dynamicData.description) explanation += `<b>Status:</b> ${dynamicData.description}<br>`;
+        if (dynamicData.drivers && dynamicData.drivers.length > 0) {
+            explanation += `<b>Drivers:</b><br><ul>${dynamicData.drivers.map(d => `<li>${d}</li>`).join('')}</ul>`;
+        }
+        if (dynamicData.impact) explanation += `<b>Impact:</b> ${dynamicData.impact}<br>`;
+        if (dynamicData.actions && dynamicData.actions.length > 0) {
+            explanation += `<b>Action:</b><br><ul>${dynamicData.actions.map(a => `<li>${a}</li>`).join('')}</ul>`;
+        }
+    } else {
+        switch(itemType) {
+             case 'stockout-crisis':
+                explanation = `<b>Stock Out Rate Crisis (4.8% vs 2% Target):</b><br>
+                    <b>Root Cause:</b> <br> Primarily driven by inaccurate demand forecasts (82.7% vs 90% target) and unreliable supplier deliveries (91.5% OTD).<br>
+                    <b>Impact:</b> <br> Estimated $280K/month in lost sales. Significant negative impact on OTIF (87.2%). Customer satisfaction declining.<br>
+                    <b>Action:</b> <br> Prioritize TKT-001. Implement emergency buffer stock for critical items. Expedite review of forecasting models and supplier performance agreements.`;
+                break;
+            case 'otif-decline':
+                explanation = `<b>OTIF Delivery Decline (87.2% vs 95% Target):</b><br>
+                    <b>Root Cause:</b> <br> Combination of high stock-out rates (4.8%) and extended lead times (12.3 days). Logistics bottlenecks also contribute.<br>
+                    <b>Impact:</b> <br> Risk to customer retention - 3 major contracts under review. Increased expedited shipping costs ($45K/month).<br>
+                    <b>Action:</b> <br> Address root causes via TKT-001 (Stockouts) and TKT-003 (Lead Time). Initiate proactive communication with key customers regarding recovery plan.`;
+                break;
+            case 'cost-overrun':
+                explanation = `<b>Cost Per Unit Overrun ($24.50 vs $22 Target):</b><br>
+                    <b>Root Cause:</b> <br> Driven by raw material inflation (+8% vs budget), increased labor costs, and energy price volatility. Production inefficiencies (78.9% efficiency) also play a role.<br>
+                    <b>Impact:</b> <br> 3.2% compression in gross margin. Reduced price competitiveness.<br>
+                    <b>Action:</b> <br> Prioritize TKT-004 (Cost Reduction). Accelerate lean manufacturing initiatives. Renegotiate with material suppliers or explore alternatives. Evaluate automation opportunities.`;
+                break;
+            case 'lead-time-delay':
+                explanation = `<b>Extended Lead Times (12.3 days vs 8 Target):</b><br>
+                    <b>Root Cause:</b> <br> Supplier processing delays, international shipping complexities (customs, documentation), and internal quality inspection times. Supplier OTD (91.5%) is a major factor.<br>
+                    <b>Impact:</b> <br> Slows time-to-market. Increases need for expedited shipping ($45K/month). Contributes to stock-outs.<br>
+                    <b>Action:</b> <br> Prioritize TKT-003. Implement supplier collaboration platform for better visibility. Explore regional inventory hubs. Streamline internal order processing and inspection.`;
+                break;
+            case 'production-efficiency':
+                explanation = `<b>Production Efficiency Gain (78.9%, Trend +2.3%):</b><br>
+                    <b>Status:</b> <br> Approaching 85% target due to recent equipment modernization and lean initiatives.<br>
+                    <b>Opportunity:</b> <br> Reaching the 85% target could yield ~$180K/month in savings.<br>
+                    <b>Action:</b> <br> Identify and replicate best practices from top-performing plants (Plant B: 82.6%, Plant D: 86.8%). Continue targeted automation investments.`;
+                break;
+            case 'warehouse-optimization':
+                explanation = `<b>Warehouse Capacity Utilization (92.1% vs 88% Target):</b><br>
+                    <b>Status:</b> <br> Excellent performance driven by automation and optimized workflows.<br>
+                    <b>Opportunity:</b> <br> Current efficiency provides capacity buffer for ~15% volume growth without major investment. Supports readiness for Q4 demand surge.<br>
+                    <b>Action:</b> <br> Document and standardize successful processes. Explore application to other facilities. Monitor for potential over-utilization risks.`;
+                break;
+            case 'market-recovery':
+                explanation = `<b>Market Recovery Trends (Tech/Energy +8%):</b><br>
+                    <b>Status:</b> <br> Positive market signals with strong Q4 demand forecast (+12-15%).<br>
+                    <b>Opportunity:</b> <br> Significant potential to gain market share if operational challenges (OTIF, Cost) are addressed.<br>
+                    <b>Action:</b> <br> Align production & inventory planning with forecast. Ensure supplier capacity. Marketing/Sales to prepare aggressive Q4 campaigns.`;
+                break;
+            case 'supplier-performance':
+                 explanation = `<b>Supplier OTD Improvement (91.5%, Trend +1.2%):</b><br>
+                    <b>Status:</b> <br> Performance improving due to new vendor program, but still below 98% target. Bottom quartile suppliers (87% OTD) are dragging down the average.<br>
+                    <b>Risk:</b> <br> Geographic concentration in Asia remains a vulnerability.<br>
+                    <b>Action:</b> <br> Focus supplier development efforts on bottom quartile. Continue diversification strategy. Implement stricter performance clauses in contracts for critical suppliers. Prioritize TKT-002.`;
+                break;
+            case 'action-expedite':
+                 explanation = `<b>Expedite Raw Material Order (Urgent):</b><br>
+                    <b>Context:</b> <br> Line 3 production at risk due to raw material shortage.<br>
+                    <b>Impact:</b> <br> Potential 4-hour stoppage affecting 20% of daily output.<br>
+                    <b>Action:</b> <br> Contact supplier for expedited air freight. Approval pre-authorized for up to $2k.`;
+                break;
+            case 'action-schedule':
+                 explanation = `<b>Review Shift Schedule (Moderate):</b><br>
+                    <b>Context:</b> <br> Weekend shift is currently understaffed by 2 operators.<br>
+                    <b>Impact:</b> <br> Risk of overtime costs exceeding budget by 15%.<br>
+                    <b>Action:</b> <br> Request voluntary overtime from weekday crew or authorize agency staff.`;
+                break;
+            case 'action-maintenance':
+                 explanation = `<b>Approve Maintenance Request (Moderate):</b><br>
+                    <b>Context:</b> <br> Forklift #4 requires hydraulic system repair.<br>
+                    <b>Impact:</b> <br> Warehouse picking efficiency reduced by 5% until fixed.<br>
+                    <b>Action:</b> <br> Approve work order WO-492. est cost $450. Repair scheduled for tonight.`;
+                 break;
+            case 'action-guidelines':
+                 explanation = `<b>Update Safety Guidelines (Low):</b><br>
+                     <b>Context:</b> <br> Q4 safety protocols require quarterly review and sign-off.<br>
+                     <b>Impact:</b> <br> Mandatory compliance requirement for ISO certification.<br>
+                     <b>Action:</b> <br> Assign to Safety Officer. Deadline: End of month.`;
+                 break;
+            case 'action-dynamic':
+                 explanation = `<b>Priority Action Detail</b><br>Detailed action steps are outlined in the corresponding Critical Issue or Key Opportunity.`;
+                 break;
+            default:
+                explanation = 'Analysis for this item is not yet configured.';
+        }
     }
     addSummaryChatMessage('assistant', explanation);
 }
