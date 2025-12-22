@@ -1,0 +1,466 @@
+{
+  "stock-out-rate": {
+    "id": "stock-out-rate",
+    "title": "Stock Out Rate",
+    "category": "critical",
+    "kpi": "Stock Out Rate",
+    "timeframes": {
+      "annual": {
+        "current": "5.1%",
+        "target": "2.0%",
+        "variance": "+155%",
+        "trend": "+0.8% YoY",
+        "trendDirection": "negative",
+        "description": "Annual stock-out rate 155% above target. Customer churn risk elevated by 15% year-over-year.",
+        "impact": "$3.4M annual lost sales; customer churn risk increased 15%",
+        "impactSeverity": "critical",
+        "drivers": {
+          "horizontal": [
+            "Forecast Accuracy: 81.2% vs 90% target - Demand Planning underperforming by 8.8%",
+            "Supply Chain Lead Time: 12.8 days vs 8 target - Procurement delays across categories",
+            "Inventory Management: Safety stock models misaligned with seasonality patterns"
+          ],
+          "vertical": [
+            "North America Region: 5.9% stock-out rate, highest among all regions",
+            "Distribution Centers: Inventory positioning suboptimal across 8 warehouses",
+            "Electronics Category: High variability SKUs showing 6.8% stock-outs"
+          ]
+        },
+        "actions": [
+          "Implement advanced demand sensing algorithms with ML forecasting",
+          "Accelerate supplier diversification program to reduce lead time by 30%",
+          "Redesign safety stock models with demand volatility segmentation"
+        ]
+      },
+      "quarterly": {
+        "current": "5.3%",
+        "target": "2.0%",
+        "variance": "+165%",
+        "trend": "+1.2% vs Q3",
+        "trendDirection": "negative",
+        "description": "Q4 stock-out rate deteriorating. Q4 revenue target at significant risk.",
+        "impact": "$920K quarterly lost sales; Q4 revenue target at risk",
+        "impactSeverity": "critical",
+        "drivers": {
+          "horizontal": [
+            "Q4 Demand Spike: Holiday season demand exceeded forecast by 18%",
+            "Supplier Constraints: 3 key suppliers missed delivery commitments in Q4",
+            "Inventory Turns: Accelerated 2.3x causing stockout vulnerabilities"
+          ],
+          "vertical": [
+            "East Coast DCs: Stock-outs at 6.1% due to port congestion delays",
+            "Consumer Electronics: Q4 demand surge caused 7.2% stock-out rate",
+            "E-commerce Channel: Fulfillment challenges drove 5.8% stock-outs"
+          ]
+        },
+        "actions": [
+          "Emergency inventory rebalancing across distribution network",
+          "Activate backup suppliers for top 50 high-velocity SKUs",
+          "Implement dynamic allocation rules for channel prioritization"
+        ]
+      },
+      "monthly": {
+        "current": "4.8%",
+        "target": "2.0%",
+        "variance": "+140%",
+        "trend": "+0.6% vs Nov",
+        "trendDirection": "negative",
+        "description": "December stock-outs 140% above target. Holiday demand significantly unmet.",
+        "impact": "$280K December lost sales; holiday demand unmet",
+        "impactSeverity": "critical",
+        "drivers": {
+          "horizontal": [
+            "Forecast Accuracy: 82.7% vs 90% target for December peak period",
+            "Inbound Lead Time: 12.3 days vs 8-day target during peak season",
+            "Safety Stock Coverage: Only 3.2 days vs 7-day target for A-items"
+          ],
+          "vertical": [
+            "North America: 5.2% stock-out rate during critical holiday window",
+            "Top 10 SKUs: 8 experienced stock-outs during December peak",
+            "Retail Channel: 5.4% stock-out rate impacting in-store availability"
+          ]
+        },
+        "actions": [
+          "Execute emergency air freight for top 20 critical SKUs",
+          "Implement daily S&OP sync meetings through December 31",
+          "Activate demand shaping promotions to smooth peak demand"
+        ]
+      },
+      "weekly": {
+        "current": "4.2%",
+        "target": "2.0%",
+        "variance": "+110%",
+        "trend": "-0.4% vs last week",
+        "trendDirection": "positive",
+        "description": "Week of Dec 11-17 shows improvement. Still 110% above target but trending favorably.",
+        "impact": "$68K weekly lost sales; 12 SKUs critically low",
+        "impactSeverity": "warning",
+        "drivers": {
+          "horizontal": [
+            "Weekly Receipts: 92% of planned POs received vs 85% previous week",
+            "Expedited Freight: 15 emergency shipments arrived mid-week",
+            "Allocation Logic: New rules prioritized high-margin customers"
+          ],
+          "vertical": [
+            "Midwest DC: Improved to 3.8% from 5.1% previous week",
+            "Home Goods Category: Week showed 3.5% stock-out vs 5.2% last week",
+            "B2B Channel: Improved allocation resulted in 3.1% stock-outs"
+          ]
+        },
+        "actions": [
+          "Maintain expedited freight for remaining 12 critical SKUs",
+          "Continue enhanced weekly allocation review process",
+          "Monitor inbound receipts daily for next 2 weeks"
+        ]
+      }
+    }
+  },
+  "otif-delivery": {
+    "id": "otif-delivery",
+    "title": "OTIF Delivery",
+    "category": "warning",
+    "kpi": "OTIF (On-Time In-Full)",
+    "timeframes": {
+      "annual": {
+        "current": "86.8%",
+        "target": "95.0%",
+        "variance": "-8.6%",
+        "trend": "-2.3% YoY",
+        "trendDirection": "negative",
+        "description": "OTIF declined 2.3 points year-over-year. Lost 2 enterprise contracts worth $8.5M.",
+        "impact": "Lost 2 enterprise contracts worth $8.5M; penalty costs $420K",
+        "impactSeverity": "critical",
+        "drivers": {
+          "horizontal": [
+            "Supplier OTD: 90.8% vs 98% target - Supplier reliability gap of 7.2%",
+            "Logistics Performance: Carrier on-time degraded 5.1% year-over-year",
+            "Production Efficiency: 79.2% vs 85% target - Manufacturing delays accumulating"
+          ],
+          "vertical": [
+            "Europe Region: OTIF at 83.5%, lowest performing region",
+            "Manufacturing Plant B: Capacity bottlenecks causing 3-day delays",
+            "Enterprise Segment: Largest contracts showing 84.2% OTIF"
+          ]
+        },
+        "actions": [
+          "Launch Supplier Excellence Program with quarterly business reviews",
+          "Diversify carrier network and implement performance-based contracts",
+          "Invest $1.2M in Plant B capacity expansion and automation"
+        ]
+      },
+      "quarterly": {
+        "current": "86.2%",
+        "target": "95.0%",
+        "variance": "-9.3%",
+        "trend": "-3.1% vs Q3",
+        "trendDirection": "negative",
+        "description": "Q4 OTIF performance deteriorated significantly. 3 major contracts on probation.",
+        "impact": "3 major contracts on probation; renewal risk $6.2M",
+        "impactSeverity": "critical",
+        "drivers": {
+          "horizontal": [
+            "Q4 Volume Surge: 22% order volume increase strained network capacity",
+            "Weather Disruptions: Midwest storms delayed 340+ shipments in Q4",
+            "Production Scheduling: Plant utilization at 96% limited flexibility"
+          ],
+          "vertical": [
+            "Europe: OTIF declined to 82.8% due to cross-border customs delays",
+            "Key Accounts Team: Top 10 customers averaged only 85.1% OTIF",
+            "Custom Products: Complex orders showing 81.5% OTIF in Q4"
+          ]
+        },
+        "actions": [
+          "Establish dedicated capacity for top 10 enterprise accounts",
+          "Implement real-time shipment tracking with proactive alerts",
+          "Create Q4 playbook for future peak season capacity planning"
+        ]
+      },
+      "monthly": {
+        "current": "87.2%",
+        "target": "95.0%",
+        "variance": "-8.2%",
+        "trend": "-1.5% vs Nov",
+        "trendDirection": "negative",
+        "description": "December OTIF below target. 3 customer escalations requiring executive intervention.",
+        "impact": "3 customer escalations; contract penalty exposure $125K",
+        "impactSeverity": "warning",
+        "drivers": {
+          "horizontal": [
+            "Supplier OTD: 91.5% vs 98% target in December peak period",
+            "Carrier Performance: 88.3% on-time vs 95% target during holidays",
+            "Production Output: December achieved 94% of plan due to absenteeism"
+          ],
+          "vertical": [
+            "Northeast Region: Winter storms impacted 78 deliveries (4.2% of total)",
+            "Enterprise Accounts: 3 escalations from Fortune 500 customers",
+            "Premium SKUs: High-value products showed 85.8% OTIF"
+          ]
+        },
+        "actions": [
+          "Daily OTIF war room meetings through December 31",
+          "Executive outreach to 3 escalated accounts with recovery plans",
+          "Activate backup carriers for weather-impacted lanes"
+        ]
+      },
+      "weekly": {
+        "current": "88.1%",
+        "target": "95.0%",
+        "variance": "-7.3%",
+        "trend": "+1.2% vs last week",
+        "trendDirection": "positive",
+        "description": "Week of Dec 11-17 shows improvement. Monitoring 2 at-risk accounts closely.",
+        "impact": "Week showed improvement; monitoring 2 at-risk accounts",
+        "impactSeverity": "info",
+        "drivers": {
+          "horizontal": [
+            "Carrier Performance: Improved to 91.2% on-time after weather cleared",
+            "Production Output: Week achieved 98% of plan with overtime shifts",
+            "Supplier Deliveries: 93.8% OTD for weekly receipts"
+          ],
+          "vertical": [
+            "Midwest Region: OTIF recovered to 89.5% with clear weather",
+            "Standard Products: Achieved 91.2% OTIF this week",
+            "Direct Ship: 92.1% OTIF for orders shipped directly from plants"
+          ]
+        },
+        "actions": [
+          "Maintain daily monitoring of 2 at-risk enterprise accounts",
+          "Continue overtime authorization through December peak",
+          "Recognize carrier partners with strong weekly performance"
+        ]
+      }
+    }
+  },
+  "cost-per-unit": {
+    "id": "cost-per-unit",
+    "title": "Cost Per Unit",
+    "category": "warning",
+    "kpi": "Cost Per Unit",
+    "timeframes": {
+      "annual": {
+        "current": "$24.80",
+        "target": "$22.00",
+        "variance": "+12.7%",
+        "trend": "+$1.20 YoY",
+        "trendDirection": "negative",
+        "description": "Unit costs increased $1.20 year-over-year. Gross margin compressed 3.8%.",
+        "impact": "Gross margin compressed 3.8%; $4.2M profit erosion",
+        "impactSeverity": "critical",
+        "drivers": {
+          "horizontal": [
+            "Procurement: Raw material costs increased 9.2% due to commodity inflation",
+            "Manufacturing Operations: Labor costs up 6.8% due to skill shortage premiums",
+            "Logistics Network: Transportation costs increased 8.1% per unit shipped"
+          ],
+          "vertical": [
+            "Plant C (Asia): Highest cost per unit at $26.80 vs Plant A at $22.40",
+            "Premium Product Line: Unit cost $29.20, margin impact -4.8%",
+            "Supply Chain Finance: Working capital efficiency down 12%, increasing carrying costs"
+          ]
+        },
+        "actions": [
+          "Execute strategic sourcing initiative targeting $1.8M annual savings",
+          "Implement lean manufacturing program across all 5 plants",
+          "Optimize logistics network with route optimization and load consolidation"
+        ]
+      },
+      "quarterly": {
+        "current": "$24.90",
+        "target": "$22.00",
+        "variance": "+13.2%",
+        "trend": "+$0.65 vs Q3",
+        "trendDirection": "negative",
+        "description": "Q4 costs escalated. Margin target missed by 4.1%, requiring CFO escalation.",
+        "impact": "Q4 margin target missed by 4.1%; CFO escalation required",
+        "impactSeverity": "critical",
+        "drivers": {
+          "horizontal": [
+            "Q4 Material Costs: Steel prices spiked 11% in Q4 due to supply constraints",
+            "Q4 Labor Costs: Holiday overtime and seasonal hiring added $0.35/unit",
+            "Q4 Freight Costs: Peak season surcharges added $0.42/unit"
+          ],
+          "vertical": [
+            "Plant B: Q4 efficiency drop to 76.2% increased unit cost to $25.80",
+            "Seasonal Products: Holiday SKUs cost $27.50/unit vs standard $23.20",
+            "Expedited Orders: Rush production added average $3.80/unit premium"
+          ]
+        },
+        "actions": [
+          "Freeze non-critical hiring and discretionary spending in Q1",
+          "Negotiate early commitments with suppliers for Q1 rate locks",
+          "Review and optimize Q4 peak season playbook for next year"
+        ]
+      },
+      "monthly": {
+        "current": "$24.50",
+        "target": "$22.00",
+        "variance": "+11.4%",
+        "trend": "+$0.30 vs Nov",
+        "trendDirection": "negative",
+        "description": "December margin compressed 3.2%. Production cost audit initiated.",
+        "impact": "December margin compressed 3.2%; production cost audit needed",
+        "impactSeverity": "warning",
+        "drivers": {
+          "horizontal": [
+            "Material Costs: December steel contracts up $0.18/unit from November",
+            "Labor Costs: Holiday overtime premium added $0.22/unit in December",
+            "Overhead Allocation: December fixed costs spread over lower volume"
+          ],
+          "vertical": [
+            "Plant A: Maintained best-in-class $22.90/unit despite headwinds",
+            "High-Velocity SKUs: Standard products averaged $23.50/unit",
+            "Low-Volume SKUs: Complex products reached $28.20/unit in December"
+          ]
+        },
+        "actions": [
+          "Complete cost audit by December 31 with action plan",
+          "Renegotiate Q1 supplier contracts to capture deflation opportunities",
+          "Optimize product mix to favor higher-margin standard SKUs"
+        ]
+      },
+      "weekly": {
+        "current": "$24.20",
+        "target": "$22.00",
+        "variance": "+10.0%",
+        "trend": "-$0.15 vs last week",
+        "trendDirection": "positive",
+        "description": "Week of Dec 11-17 shows cost reduction from supplier negotiations.",
+        "impact": "Weekly cost reduction from supplier negotiations",
+        "impactSeverity": "info",
+        "drivers": {
+          "horizontal": [
+            "Material Savings: Supplier negotiation achieved $0.12/unit reduction",
+            "Labor Efficiency: Week ran at 81.2% efficiency reducing cost $0.08/unit",
+            "Freight Optimization: Load consolidation saved $0.05/unit this week"
+          ],
+          "vertical": [
+            "Plant A: Weekly leader at $22.50/unit with lean practices",
+            "Standard Products: Achieved $23.20/unit with efficient runs",
+            "Direct Materials: Week showed 2.1% material cost improvement"
+          ]
+        },
+        "actions": [
+          "Scale supplier negotiation wins to other material categories",
+          "Share Plant A best practices to other facilities this week",
+          "Continue weekly cost review meetings through year-end"
+        ]
+      }
+    }
+  },
+  "lead-time": {
+    "id": "lead-time",
+    "title": "Lead Time",
+    "category": "warning",
+    "kpi": "Average Lead Time",
+    "timeframes": {
+      "annual": {
+        "current": "12.8 days",
+        "target": "8.0 days",
+        "variance": "+60%",
+        "trend": "+1.5 days YoY",
+        "trendDirection": "negative",
+        "description": "Lead time increased 1.5 days year-over-year. Expedited costs up $680K.",
+        "impact": "Expedited shipping costs up $680K; working capital tied up",
+        "impactSeverity": "warning",
+        "drivers": {
+          "horizontal": [
+            "Supplier Processing: Average 6.8 days vs 2-day industry benchmark",
+            "Quality Assurance: Inspection and testing adding 2.4 days of lead time",
+            "Customs Documentation: International shipments delayed 2.1 days average"
+          ],
+          "vertical": [
+            "APAC Sourcing: Lead time 17.2 days vs Americas at 9.5 days",
+            "Custom Products: Complex orders averaging 19.5 days vs standard 8.2 days",
+            "Port Warehouses: Cross-dock operations adding 1.5 days vs Direct Ship"
+          ]
+        },
+        "actions": [
+          "Implement vendor-managed inventory (VMI) for top 30 suppliers",
+          "Streamline QA process with risk-based sampling approach",
+          "Nearshore 20% of APAC sourcing to Mexico/Latin America"
+        ]
+      },
+      "quarterly": {
+        "current": "13.1 days",
+        "target": "8.0 days",
+        "variance": "+64%",
+        "trend": "+1.8 days vs Q3",
+        "trendDirection": "negative",
+        "description": "Q4 lead times deteriorated. Expedited costs reached 2.3x normal levels.",
+        "impact": "Q4 expedited costs reached $185K; 2.3x normal levels",
+        "impactSeverity": "warning",
+        "drivers": {
+          "horizontal": [
+            "Q4 Supplier Delays: Peak season demand caused 2.2-day supplier delays",
+            "Q4 Port Congestion: West Coast ports added 1.5 days to ocean freight",
+            "Q4 Carrier Capacity: Limited trucking capacity added 0.8 days"
+          ],
+          "vertical": [
+            "APAC Routes: Q4 lead time reached 18.5 days with port delays",
+            "Holiday Products: Seasonal SKUs averaged 15.2 days lead time",
+            "Air Freight: Emergency shipments averaged 4.5 days vs 13.1 ocean"
+          ]
+        },
+        "actions": [
+          "Book Q1 ocean freight capacity early at favorable rates",
+          "Increase safety stock for APAC-sourced items by 15%",
+          "Establish air freight contracts for Q1 critical needs"
+        ]
+      },
+      "monthly": {
+        "current": "12.3 days",
+        "target": "8.0 days",
+        "variance": "+54%",
+        "trend": "+0.8 days vs Nov",
+        "trendDirection": "negative",
+        "description": "December lead time 54% above target. Buffer stock depleted requiring expedited freight.",
+        "impact": "December expedited shipping $62K; buffer stock depleted",
+        "impactSeverity": "warning",
+        "drivers": {
+          "horizontal": [
+            "Supplier Lead Time: December averaged 6.2 days processing vs 2-day target",
+            "Customs Clearance: Holiday staffing caused 2.8-day delays vs 1.2 normal",
+            "Final Mile Delivery: December carrier delays added 1.1 days"
+          ],
+          "vertical": [
+            "China Suppliers: December lead time 14.5 days with factory holidays approaching",
+            "Electronics Category: Components averaged 13.8 days in December",
+            "Cross-Border: Canada/Mexico shipments averaged 10.2 days with customs"
+          ]
+        },
+        "actions": [
+          "Expedite 25 critical POs via air freight before year-end",
+          "Pre-clear customs documentation for January receipts",
+          "Confirm supplier production schedules for post-holiday restart"
+        ]
+      },
+      "weekly": {
+        "current": "11.8 days",
+        "target": "8.0 days",
+        "variance": "+48%",
+        "trend": "-0.3 days vs last week",
+        "trendDirection": "positive",
+        "description": "Week of Dec 11-17 shows improvement. APAC shipments arrived early.",
+        "impact": "Lead time slightly improved; APAC shipments arrived early",
+        "impactSeverity": "info",
+        "drivers": {
+          "horizontal": [
+            "Supplier Performance: Week averaged 5.5 days processing, improving",
+            "Port Operations: West Coast congestion eased, saving 0.8 days",
+            "Carrier Transit: Weekly transit times improved 0.5 days"
+          ],
+          "vertical": [
+            "APAC Shipments: 3 major containers arrived 2 days early this week",
+            "Domestic Suppliers: Averaged 8.2 days, near target performance",
+            "Standard Products: Week averaged 10.5 days vs 13.2 for custom"
+          ]
+        },
+        "actions": [
+          "Recognize suppliers with early weekly deliveries",
+          "Monitor port operations daily for continued improvement",
+          "Continue weekly supplier scorecard reviews"
+        ]
+      }
+    }
+  }
+}
